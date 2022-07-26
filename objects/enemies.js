@@ -2,7 +2,8 @@ var Evolution = {
     /* Factor: 
         Reaserch (every time reaserch is done: +number of previous reaserches)
         Ores Mined +0.001
-
+        Buildings Placed +0.02
+        
     */ 
    spawnCooldown: 10000
 }
