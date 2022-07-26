@@ -1,2 +1,3 @@
 # Horizon
-UNSTABLE ALPHA VERSION: 
+
+UNSTABLE ALPHA link: https://serifonium.github.io/Horizon/
