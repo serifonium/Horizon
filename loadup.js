@@ -1,7 +1,11 @@
-
+var MODE = "singleplayer" /*"multiplayer"*/
 var Data = {
     images: {},
 }
+
+
+
+
 
 Data.titles = ["Can You Feel My Heart",
 "Version 2",

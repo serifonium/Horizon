@@ -11,4 +11,15 @@ setInterval(() => {
         ctx.fillText("Debug Active", 30, 30+40)
         
     }
+    if(MODE === "multiplayer")  {
+        for(let player of multiplayers) {
+            if(player.render !== undefined) {
+                player.render(player)
+            } if(player.debugRender !== undefined) {
+                player.debugRender(player)
+            }
+            
+        }
+        sendPos()
+    }
 },1000/60)
