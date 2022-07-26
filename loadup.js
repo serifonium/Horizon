@@ -35,7 +35,7 @@ addImg("metal")
 addImg("assembly")
 addImg("belt")
 addImg("woodChest")
-//addImg("grass")
+addImg("inserter")
 //addImg("grass")
 addImg("ironPlate", "items/")
 

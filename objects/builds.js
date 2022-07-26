@@ -330,6 +330,10 @@ class Inserter extends Hitbox {
             Player.metadata.currentWorld.metadata.hitboxes.push(this.outputHitbox)
             this.outputHitbox.renderColor = "#00cccc"
         }
+        this.render = () => {
+            let a = this.rotation * 90 -90
+            rotateimg(Data.images.inserter, this.x+cx-16, this.y+cy-16, a)
+        }
     }
 }
 
