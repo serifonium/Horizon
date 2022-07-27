@@ -93,6 +93,8 @@ function loop(x, fct, args = []) {
 
 
 
-function x() {
-
+function x(x) {
+    
 }
+
+var InterfaceOpen = null

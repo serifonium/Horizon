@@ -3,7 +3,7 @@ var Evolution = {
         Reaserch (every time reaserch is done: +number of previous reaserches)
         Ores Mined +0.001
         Buildings Placed +0.02
-        
+
     */ 
    spawnCooldown: 10000
 }
@@ -12,8 +12,25 @@ class Enemy extends Hitbox {
     constructor(x, y) {
         super(x, y, 48, 48)
         this.renderColor = "#ff5555"
+        this.target = null
         this.update = () => {
+            if(Math.hypot(Player.x - this.x, Player.y - this.y) < 600 && this.target === null) {
+                this.target = Player
+            }
+            if(this.target !== null) {
+                if(this.x > this.target.x-24) {
+                    this.x += -2
+                }if(this.x < this.target.x-24) {
+                    this.x += 2
+                } if(this.y > this.target.y-24) {
+                    this.y += -2
+                }if(this.y < this.target.y-24) {
+                    this.y += 2
+                }
+                if(Math.hypot(this.target.x - this.x, this.target.y - this.y) > 1400) {
 
+                }
+            }
         }
     }
 }
@@ -66,9 +83,15 @@ class Hive extends Hitbox {
     }
 }
 addBuild(new Enemy(8, 64+8))
-addBuild(new Hive(64*13, 64*3))
-addBuild(new Hive(64*16, 64*9))
-addBuild(new Hive(64*24, 64*14))
-addBuild(new Hive(64*21, 64*23))
-addBuild(new Hive(64*11, 64*11))
-addBuild(new Hive(64*28, 64*10))
+
+
+
+
+
+class Defender extends Hitbox {
+    constructor(x, y) {
+        super(x, y, 48, 48)
+        this.follow = Player
+        this.lifespan = 10*1000
+    }
+}

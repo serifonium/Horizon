@@ -39,7 +39,7 @@ var Player = {
 }
 chatMessage = ""
 chatOpen = false
-debugActive = false
+debugActive = true
 keyHistory = []
 currentKeys = []
 document.addEventListener("keydown", (e) => {

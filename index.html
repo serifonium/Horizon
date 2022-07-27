@@ -9,7 +9,7 @@
     <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
 </head>
 <body>
-    <canvas id="myCanvas"></canvas>
+    <canvas id="myCanvas" class="absolute"></canvas>
     <script src="loadup.js"></script>
     <script src="objects/hitbox.js"></script>
     <script src="objects/player.js"></script>
@@ -20,5 +20,59 @@
     <script src="multiplayer.js"></script>
     
     <script src="main.js"></script>
+
+    <div id="assemblyMenu" hidden>
+        <div id="top">
+            <h1 style="width:40%; padding-right:0%;">Assembly Menu</h1>
+
+            <!--<button id="close">X</button>-->
+        </div>
+        
+        <br>
+        <div id="descriptionColumn">
+            <img src="imgs/assemblyIcon.png" style="padding-left: 3%; padding-right: 3%;">
+            <br>
+            <h2 id="title">Assembly Mk1</h2>
+            <p id="description">
+                A Basic Machine Assembled to create simplistic items. 
+            </p>
+        </div>
+        
+        <div id="recipeList">
+            
+            <div class="recipe" onclick="x('Iron Gear')"> 
+                <h3>Iron Gear</h3>
+                <p> 2 Iron Plates <br>---><br> 1 Iron Gear</p>
+            </div> <div class="recipe" onclick="x('Electronics')"> 
+                <h3>Electronics</h3>
+                <p> 1 Iron Plates + 3 Wire <br>---><br> 2 Electronics</p>
+            </div> <div class="recipe" onclick="x('Wire')"> 
+                <h3>Wire</h3>
+                <p> 1 Copper Plate <br>---><br> 4 Wire</p>
+            </div> <div class="recipe" onclick="x('Budget Ammo Magazine')"> 
+                <h3>Budget Ammo Magazine</h3>
+                <p> 3 Iron Plates <br>---><br> 1 Budget Ammo</p>
+            </div> <div class="recipe" onclick="x('Firecrackers')"> 
+                <h3>Firecrackers</h3>
+                <p> 2 Coal + 3 Copper Plates <br>---><br> 1 Iron Gear</p>
+            </div> <div class="recipe" onclick="x('Engine Unit')"> 
+                <h3>Engine Unit</h3>
+                <p> 5 Iron Plate + 3 Iron Gears + 2 Electronics <br>---><br> 1 Engine Unit</p>
+            </div> <div class="recipe" onclick="x('Defender')"> 
+                <h3>Defender</h3>
+                <p> 8 Budget Ammo + 10 Iron Plates + 1 Engine Unit <br>---><br> 1 Defender</p>
+            </div> <div class="recipe" onclick="x('Basic Science Pack')"> 
+                <h3>Basic Science Pack</h3>
+                <p> 3 Electronics + 6 Iron Gears + 1 Engine Unit <br>---><br> 3 Basic Science Pack</p>
+            </div> <div class="recipe" onclick="x('Defender')"> 
+                <h3>Defender</h3>
+                <p> 8 Budget Ammo + 10 Iron Plates + 1 Engine Unit <br>---><br> 1 Defender</p>
+            </div> <div class="recipe" onclick="x('Defender')"> 
+                <h3>Defender</h3>
+                <p> 8 Budget Ammo + 10 Iron Plates + 1 Engine Unit <br>---><br> 1 Defender</p>
+            </div>
+        </div>
+        
+    </div>
 </body>
 </html>

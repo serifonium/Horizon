@@ -4,6 +4,75 @@ body {
     overflow-x: hidden;
 
 }
+
 #myCanvas {
+    border: 1px solid black;
+    position: absolute;
+    left:0px;
+    top:0px;
+}
+.absolute {
+    position: absolute;
+}
+#top {
+    height: 50px;
+    width: 100%;
+}
+#assemblyMenu {
+    position: absolute;
+    width:92%;
+    margin:4%;
+    border: 1px solid black;
+    background-color: rgb(99, 99, 99);
+    box-shadow: 5px 10px #000000;
+}
+#recipeList {
+    overflow-y: auto;
+    height: 450px;
+    width: 60%;
+    border: 1px solid black;
+    background-color: rgb(69, 69, 69);
+}
+.recipe{
+    display: inline-block;
+    width: 49%;
+    margin-top:15px;
+    margin-bottom:15px;
+    line-height: 16px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    border: 1px solid rgb(0, 0, 0);
+    background-color: rgb(37, 37, 37);
+}
+.recipe p {
+    color: rgb(102, 102, 102);
+    margin:0px;
+    line-height: 16px;
+    padding: 0%;
+}
+.recipe h3 {
+    color: rgb(134, 134, 134);
+    margin-top:0px;
+    margin-bottom:13px;
+}
+.recipe:hover {
+    background-color: rgb(82, 122, 148);
+}
+#descriptionColumn {
+    height: 450px;
+    background-color: rgb(37, 37, 37);
+    color: rgb(102, 102, 102);
+    width: 39.6;
+    float: right;
+    text-align: center;
+    border: 1px solid black;
+}
+#close {
+    height: 50px;
+    background-color: rgb(37, 37, 37);
+    color: rgb(102, 102, 102);
+    width: 50px;
+    float: right;
+    text-align: center;
     border: 1px solid black;
 }
