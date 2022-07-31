@@ -18,16 +18,16 @@ class Enemy extends Hitbox {
                 this.target = Player
             }
             if(this.target !== null) {
-                if(this.x > this.target.x-24) {
+                if(this.x > this.target.x) {
                     this.x += -2
-                }if(this.x < this.target.x-24) {
+                }if(this.x < this.target.x) {
                     this.x += 2
-                } if(this.y > this.target.y-24) {
+                } if(this.y > this.target.y) {
                     this.y += -2
-                }if(this.y < this.target.y-24) {
+                }if(this.y < this.target.y) {
                     this.y += 2
                 }
-                if(Math.hypot(this.target.x - this.x, this.target.y - this.y) > 1400) {
+                if(Math.hypot(this.target.x - this.x, this.target.y - this.y) > 800) {
 
                 }
             }
@@ -85,6 +85,7 @@ class Hive extends Hitbox {
 addBuild(new Enemy(8, 64+8))
 
 
+addBuild(new Hive(64*9, 64*8))
 
 
 

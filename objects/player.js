@@ -12,7 +12,7 @@ var Player = {
     metadata: {},
     render: () => {
         ctx.fillStyle = "#222222"
-        ctx.fillRect(Player.x - 32+cx, Player.y - 32+cy, 64, 64)
+        ctx.fillRect(Player.x+cx, Player.y+cy, 64, 64)
     }, update: () => {
         function getTile(x, y) {
             return Player.metadata.currentWorld.grid[Math.floor(x/64)][Math.floor(y/64)]
@@ -37,6 +37,7 @@ var Player = {
         }
     }
 }
+
 chatMessage = ""
 chatOpen = false
 debugActive = true
@@ -72,8 +73,19 @@ document.addEventListener("keydown", (e) => {
         if(e.key === "`") {
             chatOpen = true
         }
-    } else {
-        chatMessage += e.key
+    } else if(MODE === "multiplayer"){
+        if(e.key === "Backspace") {chatMessage = chatMessage.slice(0, -1)}
+        else if (e.key === "Shift" || e.key === "Meta" || e.key === "Control" || e.key === "Tab") {}
+        else if (e.key === "Enter") {
+            sendUN(Player.name+": " + chatMessage, 3000, "#000000")
+            chatMessage = ""
+            chatOpen = false
+        } else if (e.key === "Escape") {
+            chatMessage = ""
+            chatOpen = false
+        }
+        else chatMessage += e.key
+        
     }
    
 
