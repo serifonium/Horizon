@@ -5,7 +5,8 @@ var Evolution = {
         Buildings Placed +0.02
 
     */ 
-   spawnCooldown: 10000
+   spawnCooldown: 7000,
+   enemySpeed: 2
 }
 
 class Enemy extends Hitbox {
@@ -13,22 +14,23 @@ class Enemy extends Hitbox {
         super(x, y, 48, 48)
         this.renderColor = "#ff5555"
         this.target = null
+        this.speed = Evolution.enemySpeed
         this.update = () => {
             if(Math.hypot(Player.x - this.x, Player.y - this.y) < 600 && this.target === null) {
                 this.target = Player
             }
             if(this.target !== null) {
                 if(this.x > this.target.x) {
-                    this.x += -2
+                    this.x += -this.speed
                 }if(this.x < this.target.x) {
-                    this.x += 2
+                    this.x += this.speed
                 } if(this.y > this.target.y) {
-                    this.y += -2
+                    this.y += -this.speed
                 }if(this.y < this.target.y) {
-                    this.y += 2
+                    this.y += this.speed
                 }
                 if(Math.hypot(this.target.x - this.x, this.target.y - this.y) > 800) {
-
+                    this.target = null
                 }
             }
         }

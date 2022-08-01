@@ -5,13 +5,7 @@ if(MODE === "multiplayer")  {
         origin: "*"
     })
 
-    var chat = []
-    var chatHistory = []
-
-    function sendChatMsg(txt, time, colour) {
-        chat.unshift({text: txt, timeLeft: time, colour: colour})
-        chatHistory.unshift({text: txt, timeLeft: time, colour: colour})
-    }
+    
 
 
     var multiplayers = []

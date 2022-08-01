@@ -12,7 +12,9 @@
     <canvas id="myCanvas" class="absolute"></canvas>
     <script src="loadup.js"></script>
     <script src="objects/hitbox.js"></script>
+    <script src="objects/reasearch.js"></script>
     <script src="objects/player.js"></script>
+    <script src="objects/chat.js"></script>
     <script src="objects/world.js"></script>
     <script src="objects/train.js"></script>
     <script src="objects/builds.js"></script>
@@ -60,7 +62,7 @@
                 <p> 5 Iron Plate + 3 Iron Gears + 2 Electronics <br>---><br> 1 Engine Unit</p>
             </div> <div class="recipe" onclick="x('Defender')"> 
                 <h3>Defender</h3>
-                <p> 8 Budget Ammo + 10 Iron Plates + 1 Engine Unit <br>---><br> 1 Defender</p>
+                <p> 4 Budget Ammo + 8 Iron Plates + 1 Engine Unit <br>---><br> 1 Defender</p>
             </div> <div class="recipe" onclick="x('Basic Science Pack')"> 
                 <h3>Basic Science Pack</h3>
                 <p> 3 Electronics + 6 Iron Gears + 1 Engine Unit <br>---><br> 3 Basic Science Pack</p>
@@ -73,6 +75,29 @@
             </div>
         </div>
         
+    </div>
+    <div id="inventory" hidden>
+        <div id="top">
+            <h1 style="width:40%; padding-right:0%;">Player</h1>
+
+            <!--<button id="close">X</button>-->
+        </div>
+        <div id="playerColumn">
+            <img src="imgs/assemblyIcon.png" style="padding-left: 3%; padding-right: 3%;">
+            <br>
+            <h2 id="player-name">-Player Name-</h2>
+            <div id="playerColumnLeft">
+                <div class="tile left"></div>
+                <div class="tile left"></div>
+                <div class="tile left"></div>
+            </div>
+            <div id="playerColumnRight">
+                <div class="tile right"></div>
+                <div class="tile right"></div>
+                <div class="tile right"></div>
+            </div>
+            <div id="playerPic"></div>
+        </div>
     </div>
 </body>
 </html>

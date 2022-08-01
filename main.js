@@ -24,32 +24,33 @@ setInterval(() => {
             
         }
 
-        for(let c in chat) {
-            if(chat[c].timeLeft < 800) {
-                ctx.globalAlpha = chat[c].timeLeft/800
-            }
-            if(!chatOpen) {
-                ctx.fillStyle = chat[c].colour
-                ctx.font = "24px Arial"
-                ctx.textAlign = "left"
-                ctx.fillText(chat[c].text, 20, window.innerHeight - 20 - c*30)
-            }
-            chat[c].timeLeft += (tick - prevTick)
-            if(chat[c].timeLeft < 0) {
-                chat.splice(c, 1)
-            }
-            ctx.globalAlpha = 1
-        } if(chatOpen) {
-            ctx.globalAlpha = 0.3
-            ctx.fillStyle = "#000000"
-            ctx.fillRect(0, 0, 30, window.innerHeight)
-            ctx.globalAlpha = 1
-            for(let c in chatHistory) {
-                ctx.fillStyle = chatHistory[c].colour
-                ctx.font = "24px Arial"
-                ctx.textAlign = "left"
-                ctx.fillText(chatHistory[c].text, 20, window.innerHeight - 20 - c*30)
-            }
+        
+    }
+    for(let c in chat) {
+        if(chat[c].timeLeft < 800) {
+            ctx.globalAlpha = chat[c].timeLeft/800
+        }
+        if(!chatOpen) {
+            ctx.fillStyle = chat[c].colour
+            ctx.font = "24px Arial"
+            ctx.textAlign = "left"
+            ctx.fillText(chat[c].text, 20, window.innerHeight - 20 - c*30)
+        }
+        chat[c].timeLeft += (tick - prevTick)
+        if(chat[c].timeLeft < 0) {
+            chat.splice(c, 1)
+        }
+        ctx.globalAlpha = 1
+    } if(chatOpen) {
+        ctx.globalAlpha = 0.3
+        ctx.fillStyle = "#000000"
+        ctx.fillRect(0, 0, 30, window.innerHeight)
+        ctx.globalAlpha = 1
+        for(let c in chatHistory) {
+            ctx.fillStyle = chatHistory[c].colour
+            ctx.font = "24px Arial"
+            ctx.textAlign = "left"
+            ctx.fillText(chatHistory[c].text, 20, window.innerHeight - 20 - c*30)
         }
     }
     ctx.fillStyle = "#000000"

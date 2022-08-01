@@ -9,6 +9,7 @@ var Player = {
     loadup: () => {
 
     },
+    speed: 3,
     metadata: {},
     render: () => {
         ctx.fillStyle = "#222222"
@@ -37,7 +38,7 @@ var Player = {
         }
     }
 }
-
+prevChatMessage = ""
 chatMessage = ""
 chatOpen = false
 debugActive = true
@@ -55,38 +56,20 @@ document.addEventListener("keydown", (e) => {
         if (a) {currentKeys.push(e.key)
             keyHistory.push(e.key)}
         if(e.key === "w") {
-            Player.vy = -4
+            Player.vy = -Player.speed
         } if(e.key === "s") {
-            Player.vy = 4
+            Player.vy = Player.speed
         }
         if(e.key === "a") {
-            Player.vx = -4
+            Player.vx = -Player.speed
         } if(e.key === "d") {
-            Player.vx = 4
+            Player.vx = Player.speed
         }
     }
-
-    if(e.key === "K") {
-
-    }
-    if(!chatOpen) {
-        if(e.key === "`") {
-            chatOpen = true
-        }
-    } else if(MODE === "multiplayer"){
-        if(e.key === "Backspace") {chatMessage = chatMessage.slice(0, -1)}
-        else if (e.key === "Shift" || e.key === "Meta" || e.key === "Control" || e.key === "Tab") {}
-        else if (e.key === "Enter") {
-            sendUN(Player.name+": " + chatMessage, 3000, "#000000")
-            chatMessage = ""
-            chatOpen = false
-        } else if (e.key === "Escape") {
-            chatMessage = ""
-            chatOpen = false
-        }
-        else chatMessage += e.key
+    if(e.key === "upArrow") {
         
     }
+    
    
 
     last = keyHistory.slice(-5).join("")

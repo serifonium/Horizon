@@ -39,3 +39,33 @@ class Button {
         })
     }
 }
+
+class Inventory {
+    constructor() {
+        this.contents = []
+        this.limit = 16
+        this.stackSize
+        this.addItem = (item) => {
+            let itemsLeft = item.amount
+            //
+            for(let i in this.contents) {
+                if(item.name === this.contents[i].name) {
+                    if(this.contents[i].amount === this.stackSize) {
+
+                    } else if(this.contents[i].amount < this.stackSize) {
+                        if(this.contents[i].amount + itemsLeft <= this.stackSize) {
+                            this.contents[i].amount += itemsLeft
+                            return 0 
+                        } else {
+                            
+                        }
+                    }
+                } else {
+                    
+                }
+                
+            }
+            return itemsLeft
+        }
+    }
+}
