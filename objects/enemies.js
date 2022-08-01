@@ -89,6 +89,21 @@ addBuild(new Enemy(8, 64+8))
 
 addBuild(new Hive(64*9, 64*8))
 
+for(let i = 0; i < 50; i++) {
+    let x = Math.floor( Math.random() * currentWorld.width * 64)
+    let y = 64*currentWorld.height - Math.floor( Math.random() * 16 * 64 ) 
+    console.log(x, y, x/64, y/64)
+    let c = false
+    for(let h of currentWorld.metadata.hitboxes) {
+        if(overlapping(h, {x:x, y:y, w:3*64, h:3*64})) {
+            c = true
+        }
+    }
+    if(!c) {
+        currentWorld.metadata.hitboxes.push(new Hive(x, y))
+        console.log("spawned")
+    }
+}
 
 
 class Defender extends Hitbox {

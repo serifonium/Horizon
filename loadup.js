@@ -1,4 +1,4 @@
-var MODE = "singleplayer" /*"multiplayer"*/
+var MODE = /*"singleplayer"*/ "multiplayer"
 var Data = {
     images: {},
 }
