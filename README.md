@@ -12,8 +12,8 @@ wasd : move
 
 ` : chat
 
-m : map
+'m' : map
 
-+ : Zoom in
+'+' : Zoom in
 
-- : Zoom Out
+'-' : Zoom Out
