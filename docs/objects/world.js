@@ -1,6 +1,8 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
+var Fortune = 1
+
 class Tile {
     constructor(x, y, type, world) {
         this.x = x
@@ -81,7 +83,7 @@ class World {
         }
     }
 }
-currentWorld = new World(85, 45)
+currentWorld = new World(80, 100)
 /*
 for(let a = 2; a < 3; a++) {
     for(let b = 3; b < 14; b += 2) {
@@ -154,12 +156,11 @@ class Rock extends Hitbox {
         })
     }
 }
-Player.metadata.currentWorld.metadata.hitboxes.push(new Rock(3*64, 1*64, "large"))
 
 /* 
     25% chance of output {
         20% Supply Chest
-        15% Enemy
+        25% Enemy
         10% Small Ore Vein
         5% Big Ore Vein
         5% Mine

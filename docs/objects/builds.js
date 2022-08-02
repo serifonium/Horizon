@@ -404,5 +404,9 @@ addBuild(new Chest(8*64, 0*64))
 addBuild(new Inserter(8*64+16, 1*64+16, 0))
 
 function addBuild(x) {
-    Player.metadata.currentWorld.metadata.hitboxes.push(x)
+    let overlap = false /*
+    for(let h of Player.metadata.currentWorld.metadata.hitboxes) {
+        if(overlapping(h, {x:x.x, y:x.y, w:x.y-1, h:x.h-1})) overlap = true
+    } */
+    if(!overlap) Player.metadata.currentWorld.metadata.hitboxes.push(x)
 }

@@ -4,6 +4,7 @@ var chatHistory = []
 function sendChatMsg(txt, time, colour) {
     chat.unshift({text: txt, timeLeft: time, colour: colour})
     chatHistory.unshift({text: txt, timeLeft: time, colour: colour})
+    Data.sfx.chatMSG.play()
 }
 
 sendChatMsg("Welcome to Horizon!", 1200, "#3333ff")
@@ -47,8 +48,14 @@ document.addEventListener("keydown", (e) => {
                     sendChatMsg("Set player's position to " + Player.x + ", Player.y", 1800, "#ff0000")
                 } else if (commandSplit[0] === "summon") {
                     if(commandSplit[1] === "enemy") {
-                        Player.metadata.currentWorld.metadata.hitboxes.push(new Enemy(Player.x, Player.y))
+                        Player.metadata.currentWorld.metadata.hitboxes.push(new Enemy(Player.x, Player.y, Player.metadata.currentWorld))
                         sendChatMsg("Summoned Enemy", 1800, "#ff0000")
+                    }
+                } else if (commandSplit[0] === "sfx") {
+                    for(let a in Data.sfx) {
+                        if(String(a) === commandSplit[1]) {
+                            Data.sfx[a].play()
+                        }
                     }
                 }
             } else {

@@ -10,10 +10,13 @@ var Evolution = {
 }
 
 class Enemy extends Hitbox {
-    constructor(x, y) {
+    constructor(x, y, w) {
         super(x, y, 48, 48)
+        this.world = w
         this.renderColor = "#ff5555"
         this.target = null
+        this.vx = 0
+        this.vy = 0
         this.speed = Evolution.enemySpeed
         this.update = () => {
             if(Math.hypot(Player.x - this.x, Player.y - this.y) < 600 && this.target === null) {
@@ -21,16 +24,34 @@ class Enemy extends Hitbox {
             }
             if(this.target !== null) {
                 if(this.x > this.target.x) {
-                    this.x += -this.speed
+                    this.vx = -this.speed
                 }if(this.x < this.target.x) {
-                    this.x += this.speed
+                    this.vx = this.speed
                 } if(this.y > this.target.y) {
-                    this.y += -this.speed
+                    this.vy = -this.speed
                 }if(this.y < this.target.y) {
-                    this.y += this.speed
+                    this.vy = this.speed
                 }
                 if(Math.hypot(this.target.x - this.x, this.target.y - this.y) > 800) {
                     this.target = null
+                }
+                let movex = true
+                let movey = true
+                for(let h of this.world.metadata.hitboxes) {
+                    if(h.id !== "spawnArea" && h !== this) {
+                        if(overlapping(h, {x: this.x + this.vx, y: this.y, w: this.w, h: this.h})) {
+                            movex = false
+                        }
+                        if(overlapping(h, {x: this.x, y: this.y + this.vy, w: this.w, h: this.h})) {
+                            movey = false
+                        }
+                    }
+                }
+                if (movex) {
+                    this.x += this.vx
+                } 
+                if (movey) {
+                    this.y += this.vy
                 }
             }
         }
@@ -64,7 +85,7 @@ class Hive extends Hitbox {
                             }
                         }
                         if (!overlap) {
-                            this.world.metadata.hitboxes.push(new Enemy(loc.x, loc.y))
+                            this.world.metadata.hitboxes.push(new Enemy(loc.x, loc.y, this.world))
                             success = true
                         }
                     }
@@ -84,27 +105,22 @@ class Hive extends Hitbox {
         }
     }
 }
-addBuild(new Enemy(8, 64+8))
 
 
-addBuild(new Hive(64*9, 64*8))
 
-for(let i = 0; i < 50; i++) {
+for(let i = 0; i < 500; i++) {
     let x = Math.floor( Math.random() * currentWorld.width * 64)
     let y = 64*currentWorld.height - Math.floor( Math.random() * 16 * 64 ) 
-    console.log(x, y, x/64, y/64)
     let c = false
     for(let h of currentWorld.metadata.hitboxes) {
-        if(overlapping(h, {x:x, y:y, w:3*64, h:3*64})) {
+        if(overlapping(h, {x:x, y:y, w:3*64, h:3*64}) && h.id !== "spawnArea") {
             c = true
         }
     }
     if(!c) {
         currentWorld.metadata.hitboxes.push(new Hive(x, y))
-        console.log("spawned")
     }
 }
-
 
 class Defender extends Hitbox {
     constructor(x, y) {

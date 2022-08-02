@@ -22,7 +22,7 @@ document.title = "Horizon: " + Data.titles[Math.floor(Math.random()*Data.titles.
 
 function addImg(src, directory = "") {
     Data.images[src] = new Image()
-    Data.images[src].src = "./imgs/"+directory+src+".png"
+    Data.images[src].src = "./docs/imgs/"+directory+src+".png"
 }
 Data.recipes = {
     ironCog: {
@@ -43,6 +43,10 @@ addImg("inserter")
 //addImg("grass")
 addImg("ironPlate", "items/")
 
+
+Data.sfx = {
+    chatMSG: new Audio("./docs/sfx/blipSelect.wav")
+}
 
 function overlapping(obj1, obj2) {
     // Check x and y for overlap

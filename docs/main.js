@@ -1,5 +1,6 @@
 var prevTick = Date.now()
 var tick = Date.now()
+var loopTick = 0
 setInterval(() => {
     prevTick = Date.now()
     document.getElementById("myCanvas").width = window.innerWidth
@@ -57,7 +58,9 @@ setInterval(() => {
     ctx.textalign = "center"
     ctx.font = "16px Arial"
     ctx.fillText(chatMessage, Player.x+32+cx, Player.y-16+cy)
-
+    renderHotbar()
+    //mapRender()
 
     tick = Date.now()
+    loopTick++
 },1000/60)

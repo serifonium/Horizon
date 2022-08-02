@@ -65,6 +65,20 @@ document.addEventListener("keydown", (e) => {
         } if(e.key === "d") {
             Player.vx = Player.speed
         }
+        if(e.key === "1") hotbarSelected = 0
+        if(e.key === "2") hotbarSelected = 1
+        if(e.key === "3") hotbarSelected = 2
+        if(e.key === "4") hotbarSelected = 3
+        if(e.key === "5") hotbarSelected = 4
+        if(e.key === "6") hotbarSelected = 5
+        if(e.key === "7") hotbarSelected = 6
+        if(e.key === "8") hotbarSelected = 7
+        if(e.key === "9") hotbarSelected = 8
+        if(e.key === "0") hotbarSelected = 9
+        if(e.key === "r") {
+            if(selectedRotation < 3) selectedRotation++
+            else selectedRotation = 0
+        }
     }
     if(e.key === "upArrow") {
         
