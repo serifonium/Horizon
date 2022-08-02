@@ -8,9 +8,12 @@ type d-e-b-u-g ingame
 
 ## Controls:
 
-wasd - move
+wasd : move
 
-` - chat
+` : chat
 
-m - map
+m : map
 
++ : Zoom in
+
+- : Zoom Out
