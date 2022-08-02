@@ -3,7 +3,7 @@ var Evolution = {
         Reaserch (every time reaserch is done: +number of previous reaserches)
         Ores Mined +0.001
         Buildings Placed +0.02
-
+        Time +0.009 per minute
     */ 
    spawnCooldown: 7000,
    enemySpeed: 2
@@ -109,14 +109,15 @@ class Hive extends Hitbox {
 
 
 for(let i = 0; i < 500; i++) {
-    let x = Math.floor( Math.random() * currentWorld.width * 64)
-    let y = 64*currentWorld.height - Math.floor( Math.random() * 16 * 64 ) 
+    let x = Math.floor( Math.random() * (currentWorld.width - 3) * 64)
+    let y = 64*currentWorld.height - Math.floor( Math.random() * 24 * 64 ) -192
     let c = false
     for(let h of currentWorld.metadata.hitboxes) {
         if(overlapping(h, {x:x, y:y, w:3*64, h:3*64}) && h.id !== "spawnArea") {
             c = true
         }
     }
+    
     if(!c) {
         currentWorld.metadata.hitboxes.push(new Hive(x, y))
     }

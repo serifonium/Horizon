@@ -126,8 +126,8 @@ class Assembly extends Hitbox {
             }
             if(debugActive) {
                 ctx.fillStyle = "#ffffff"
-                ctx.fillText(String(this.recipe.prod[0].name), this.x+ this.w/2+cx, this.y+ this.h/2-30+cy)
-                ctx.fillText(String(this.timeRemaining), this.x+ this.w/2+cx, this.y+ this.h/2+cy)
+                ctx.fillText(String(this.recipe.prod[0].name), (this.x+ this.w/2+cx)*Zoom, (this.y+ this.h/2-30+cy)*Zoom)
+                ctx.fillText(String(this.timeRemaining), (this.x+ this.w/2+cx)*Zoom, (this.y+ this.h/2+cy)*Zoom)
             }
             this.lastTick = Date.now()
         })
@@ -139,7 +139,7 @@ class Assembly extends Hitbox {
         this.timeRemaining = 500
         this.crafting = false
         this.render = () => {
-            ctx.drawImage(Data.images.assembly, this.x+cx, this.y+cy)
+            ctx.drawImage(Data.images.assembly, (this.x+cx)*Zoom, (this.y+cy)*Zoom, Data.images.assembly.width*Zoom, Data.images.assembly.height*Zoom)
         }
     }
 }
@@ -218,7 +218,7 @@ class Item extends Hitbox {
         this.renderColor = "#484848"
         this.item = i
         this.render = () => {
-            ctx.drawImage(img, this.x+cx, this.y+cy)
+            ctx.drawImage(img, (this.x+cx)*Zoom, (this.y+cy)*Zoom, img.width*Zoom, img.height*Zoom)
         }
     }
 }
@@ -232,7 +232,7 @@ class Belt extends Hitbox {
         this.rotation = r
         this.render = () => {
             let a = r*90
-            rotateimg(Data.images.belt, this.x+cx, this.y+cy, a)
+            rotateimg(Data.images.belt, (this.x+cx)*Zoom, (this.y+cy)*Zoom, a)
         }
         /*
             0
@@ -332,7 +332,7 @@ class Inserter extends Hitbox {
         }
         this.render = () => {
             let a = this.rotation * 90 -90
-            rotateimg(Data.images.inserter, this.x+cx-16, this.y+cy-16, a)
+            rotateimg(Data.images.inserter, (this.x+cx-16)*Zoom, (this.y+cy-16)*Zoom, a)
         }
     }
 }
@@ -354,7 +354,7 @@ class Chest extends Hitbox {
             }
             if(debugActive) {
                 ctx.fillStyle = "#ffffff"
-                ctx.fillText(String(this.contents[0].amount), this.x+ this.w/2-27+cx, this.y+ this.h/2+cy)
+                ctx.fillText(String(this.contents[0].amount), (this.x+ this.w/2-27+cx)*Zoom, (this.y+ this.h/2+cy)*Zoom)
             }
         })
 
@@ -380,7 +380,7 @@ class Chest extends Hitbox {
             return itemsLeft
         }
         this.render = () => {
-            ctx.drawImage(Data.images.woodChest, this.x+cx, this.y+cy)
+            ctx.drawImage(Data.images.woodChest, (this.x+cx)*Zoom, (this.y+cy)*Zoom, Data.images.woodChest.width*Zoom, Data.images.woodChest.height*Zoom)
         }
     }
 }

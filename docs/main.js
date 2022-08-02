@@ -51,15 +51,15 @@ setInterval(() => {
             ctx.fillStyle = chatHistory[c].colour
             ctx.font = "24px Arial"
             ctx.textAlign = "left"
-            ctx.fillText(chatHistory[c].text, 20, window.innerHeight - 20 - c*30)
+            ctx.fillText(chatHistory[c].text, 20, window.innerHeight - 120 - c*30)
         }
     }
     ctx.fillStyle = "#000000"
     ctx.textalign = "center"
-    ctx.font = "16px Arial"
-    ctx.fillText(chatMessage, Player.x+32+cx, Player.y-16+cy)
+    ctx.font = "24px Arial"
+    ctx.fillText(chatMessage, 60, window.innerHeight - 20)
     renderHotbar()
-    //mapRender()
+    mapRender()
 
     tick = Date.now()
     loopTick++

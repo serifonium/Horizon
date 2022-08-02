@@ -57,6 +57,8 @@ document.addEventListener("keydown", (e) => {
                             Data.sfx[a].play()
                         }
                     }
+                } else if (commandSplit[0] === "zoom") {
+                    Zoom = commandSplit[1]
                 }
             } else {
                 sendUN(Player.name+": " + chatMessage, 3000, "#000000")

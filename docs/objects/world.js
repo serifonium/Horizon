@@ -45,16 +45,16 @@ class World {
                 for(let b = 0; b < this.height; b++) {
                     let tile = this.grid[a][b]
                     if(tile.type === "grass") {
-                        ctx.drawImage(Data.images.grass, a*64+cx, b*64+cy)
+                        ctx.drawImage(Data.images.grass, (a*64+cx)*Zoom, (b*64+cy)*Zoom, Data.images.grass.width*Zoom, Data.images.grass.height*Zoom)
                     } if(tile.type === "metal") {
-                        ctx.drawImage(Data.images.metal, a*64+cx, b*64+cy)
+                        ctx.drawImage(Data.images.metal, (a*64+cx)*Zoom, (b*64+cy)*Zoom, Data.images.metal.width*Zoom, Data.images.metal.height*Zoom)
                     } if(tile.type === "void") {
                         ctx.fillStyle = "#111111"
-                        ctx.fillRect(a*64+cx, b*64+cy, 64, 64)
+                        ctx.fillRect((a*64+cx)*Zoom, (b*64+cy)*Zoom, 64*Zoom, 64*Zoom)
                     }
                     if(tile.type === undefined) {
                         ctx.fillStyle = "#ffffff"
-                        ctx.fillRect(a*64+cx, b*64+cy, 64, 64)
+                        ctx.fillRect((a*64+cx)*Zoom, (b*64+cy)*Zoom, 64*Zoom, 64*Zoom)
                     }
                 }
             }
