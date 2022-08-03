@@ -5,7 +5,7 @@ var Evolution = {
         Buildings Placed +0.02
         Time +0.009 per minute
     */ 
-   spawnCooldown: 7000,
+   spawnCooldown: 12000,
    enemySpeed: 2
 }
 
@@ -135,10 +135,10 @@ class Hive extends Hitbox {
 
 addBuild(new Enemy(14*64,14*64, Player.metadata.currentWorld))
 
-/*
-for(let i = 0; i < 500; i++) {
+
+for(let i = 0; i < 80; i++) {
     let x = Math.floor( Math.random() * (currentWorld.width - 3) * 64)
-    let y = 64*currentWorld.height - Math.floor( Math.random() * 24 * 64 ) -192
+    let y = 64*currentWorld.height - Math.floor( Math.random() * 8 * 64 ) -192
     let c = false
     for(let h of currentWorld.metadata.hitboxes) {
         if(overlapping(h, {x:x, y:y, w:3*64, h:3*64}) && h.id !== "spawnArea") {
@@ -149,7 +149,7 @@ for(let i = 0; i < 500; i++) {
     if(!c) {
         currentWorld.metadata.hitboxes.push(new Hive(x, y))
     }
-}*/
+}
 
 class Defender extends Hitbox {
     constructor(x, y) {

@@ -58,6 +58,7 @@ setInterval(() => {
     ctx.textalign = "center"
     ctx.font = "24px Arial"
     ctx.fillText(chatMessage, 60, window.innerHeight - 20)
+    ctx.fillText(prevTick - tick, 60, 60)
     renderHotbar()
     mapRender()
 
