@@ -140,7 +140,15 @@ class Assembly extends Hitbox {
         this.crafting = false
         this.render = () => {
             ctx.drawImage(Data.images.assembly, (this.x+cx)*Zoom, (this.y+cy)*Zoom, Data.images.assembly.width*Zoom, Data.images.assembly.height*Zoom)
+            ctx.fillStyle = "#ffffff"
+            ctx.fillRect((this.x+cx)*Zoom, (this.y+cy)*Zoom, this.width*Zoom, this.height*Zoom)
         }
+        document.addEventListener("mousedown", (e) => {
+            if(overlapping({x:(this.x+cx)*Zoom,y:(this.y+cy)*Zoom,w:this.width*Zoom,h:this.height*Zoom}, {x: e.clientX, y: e.clientY, w: 1, h: 1})) {
+                
+                console.log(this)
+            }
+        })
     }
 }
 
@@ -152,6 +160,8 @@ class Item extends Hitbox {
                 if(h instanceof Inserter) {
                     if (this === h.heldItem) {
                         a = false
+                        this.vy = 0
+                        this.vx = 0
                     }
                 }
             }
@@ -160,16 +170,16 @@ class Item extends Hitbox {
                 if(h instanceof Belt && a === true) {
                     if(overlapping(this, h)) {
                         if(h.rotation === 0) {
-                            this.y += -1
+                            this.vy = -1
                             a = false
                         } if(h.rotation === 1) {
-                            this.x += 1
+                            this.vx = 1
                             a = false
                         } if(h.rotation === 2) {
-                            this.y += 1
+                            this.vy = 1
                             a = false
                         } if(h.rotation === 3) {
-                            this.x += -1
+                            this.vx = -1
                             a = false
                         }
                     }
@@ -212,8 +222,29 @@ class Item extends Hitbox {
                         }
                     }
                 }
+                
             }
+            function e() {}
+            for(let h of this.world.metadata.hitboxes) {
+                if(h instanceof Item) {
+                    if(overlapping({x: this.x+this.vx, y: this.y+this.vy, w: 32, h:32}, h) && this !== h) {
+                        let a = false
+                        for(let i of this.world.metadata.hitboxes) {
+                            if(i instanceof Inserter) if(i.heldItem == this) e(); a = true
+                        }
+                        if(!a) {
+                            this.vx = 0
+                            this.vy = 0
+                        }
+                    }
+                }
+            }
+            this.x += this.vx
+            this.y += this.vy
+            
         })
+        this.vy = 0
+        this.vx = 0
         this.world = Player.metadata.currentWorld
         this.renderColor = "#484848"
         this.item = i
@@ -278,23 +309,32 @@ class Inserter extends Hitbox {
                     }
                 }
             } else {
-                
+                function letgo(i) {
+                    let a = false
+                    for(let h of i.world.metadata.hitboxes) {
+                        if(h instanceof Item) {
+                            if(overlapping(i.heldItem, h) && i.heldItem !== h) {
+                                a = true
+                            }
+                        }
+                    } if (!a) i.heldItem = undefined
+                } 
                 if(this.rotation === 0) {
                     if(this.heldItem.y > this.y - 48) {
                         this.heldItem.y += -3
-                    } else this.heldItem = undefined
+                    } else {letgo(this)}
                 } else if(this.rotation === 1) {
                     if(this.heldItem.x < this.x + 48) {
                         this.heldItem.x += 3
-                    } else this.heldItem = undefined
+                    } else {letgo(this)}
                 }  else if(this.rotation === 2) {
                     if(this.heldItem.y < this.y + 48) {
                         this.heldItem.y += 3
-                    } else this.heldItem = undefined
+                    } else {letgo(this)}
                 }  else if(this.rotation === 3) {
                     if(this.heldItem.x > this.x - 48) {
                         this.heldItem.x += -3
-                    } else this.heldItem = undefined
+                    } else {letgo(this)}
                 }
             }
         })

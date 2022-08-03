@@ -3,7 +3,7 @@ var Data = {
     images: {},
 }
 
-var Zoom = 0.5
+var Zoom = 1
 
 
 

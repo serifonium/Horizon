@@ -59,6 +59,29 @@ document.addEventListener("keydown", (e) => {
                     }
                 } else if (commandSplit[0] === "zoom") {
                     Zoom = commandSplit[1]
+                } else if (commandSplit[0] === "delete") {
+                    if (commandSplit[1] === "entities") {
+                        Player.metadata.currentWorld.metadata.hitboxes = []
+                    } if (commandSplit[1] === "items") {
+                        for(let t = 0; t < 4; t++) {
+                            for(let i in Player.metadata.currentWorld.metadata.hitboxes) {
+                                let item = Player.metadata.currentWorld.metadata.hitboxes[i]
+                                if(item instanceof Item) {
+                                    Player.metadata.currentWorld.metadata.hitboxes.splice(i, 1)
+                                    i += -1
+                                }
+                            }
+                        }
+                    } if (commandSplit[1] === "enemies") {
+                        for(let i in Player.metadata.currentWorld.metadata.hitboxes) {
+                            let e = Player.metadata.currentWorld.metadata.hitboxes[i]
+                            if(e instanceof Enemy) {
+                                Player.metadata.currentWorld.metadata.hitboxes.splice(i, 1)
+                                i += -1
+                            }
+
+                        }
+                    }
                 }
             } else {
                 sendUN(Player.name+": " + chatMessage, 3000, "#000000")

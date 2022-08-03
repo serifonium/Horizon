@@ -83,7 +83,7 @@ class World {
         }
     }
 }
-currentWorld = new World(80, 100)
+currentWorld = new World(200, 150)
 /*
 for(let a = 2; a < 3; a++) {
     for(let b = 3; b < 14; b += 2) {
