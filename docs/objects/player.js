@@ -16,7 +16,9 @@ var Player = {
         ctx.fillRect((Player.x+cx)*Zoom, (Player.y+cy)*Zoom, 64*Zoom, 64*Zoom)
     }, update: () => {
         function getTile(x, y) {
-            return Player.metadata.currentWorld.grid[Math.floor(x/64)][Math.floor(y/64)]
+            var tile = Player.metadata.currentWorld.grid.requestTile(Math.floor(x/64), Math.floor(y/64))
+            
+            return tile
         }
         Player.metadata.currentTile = getTile(Player.x, Player.y)
         if(getTile(Player.x + Player.vx, Player.y).type !== "void") Player.x += Player.vx
