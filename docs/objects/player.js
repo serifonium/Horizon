@@ -13,7 +13,7 @@ var Player = {
     metadata: {},
     render: () => {
         ctx.fillStyle = "#222222"
-        ctx.fillRect(Player.x+cx, Player.y+cy, 64, 64)
+        ctx.fillRect((Player.x+cx)*Zoom, (Player.y+cy)*Zoom, 64*Zoom, 64*Zoom)
     }, update: () => {
         function getTile(x, y) {
             var tile = Player.metadata.currentWorld.grid.requestTile(Math.floor(x/64), Math.floor(y/64))
@@ -24,19 +24,19 @@ var Player = {
         if(getTile(Player.x + Player.vx, Player.y).type !== "void") Player.x += Player.vx
         if(getTile(Player.x, Player.y + Player.vy).type !== "void") Player.y += Player.vy
 
-        if (Player.x < window.innerWidth / 2) {
+        if ((Player.x)*Zoom < (window.innerWidth / 2)) {
             cx = 0
-        } else if (Player.x > Player.metadata.currentWorld.width * 64 - window.innerWidth / 2) {
-            cx = -(Player.metadata.currentWorld.width * 64 - window.innerWidth)
+        } else if (Player.x > Player.metadata.currentWorld.width * 64 - window.innerWidth / 2/Zoom) {
+            cx = -(Player.metadata.currentWorld.width * 64 - window.innerWidth/Zoom)
         } else {
-            cx = -(Player.x - window.innerWidth / 2)
+            cx = -(Player.x - window.innerWidth / 2 /Zoom)
         }
-        if (Player.y < window.innerHeight / 2) {
+        if (Player.y*Zoom < window.innerHeight / 2) {
             cy = 0
-        } else if (Player.y > Player.metadata.currentWorld.height * 64 - window.innerHeight / 2) {
-            cy = -(Player.metadata.currentWorld.height * 64 - window.innerHeight)
+        } else if (Player.y > Player.metadata.currentWorld.height * 64 - window.innerHeight / 2/Zoom) {
+            cy = -(Player.metadata.currentWorld.height * 64 - window.innerHeight/Zoom)
         } else {
-            cy = -(Player.y - window.innerHeight / 2)
+            cy = -(Player.y - window.innerHeight / 2/Zoom)
         }
     }
 }
@@ -81,6 +81,13 @@ document.addEventListener("keydown", (e) => {
             if(selectedRotation < 3) selectedRotation++
             else selectedRotation = 0
         }
+        if(e.key === "+") {if(Zoom+0.1 > 0.5 && Zoom+0.1 < 1.5) Zoom += 0.1}
+        if(e.key === "-") {if(Zoom-0.1 > 0.5 && Zoom-0.1 < 1.5) Zoom += -0.1}
+        if(e.key === "m") {
+            if(mapOpen) mapOpen = false
+            else mapOpen = true
+        }
+        
     }
     if(e.key === "upArrow") {
         

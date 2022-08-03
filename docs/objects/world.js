@@ -35,6 +35,7 @@ class World {
         this.render = () => {
             ctx.fillStyle = "#111111"
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+
             var playerChunkPos = v(-Math.floor(cx/(this.grid.options.rows*64)), -Math.floor(cy/(this.grid.options.columns*64))),
                 loadingRange = ((3)*2)+1,
                 visableChunks = this.grid.requestChunks(
@@ -80,7 +81,7 @@ class World {
         }
     }
 }
-currentWorld = new World(80, 100)
+currentWorld = new World(200, 150)
 /*
 for(let a = 2; a < 3; a++) {
     for(let b = 3; b < 14; b += 2) {

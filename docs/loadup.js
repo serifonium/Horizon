@@ -3,7 +3,7 @@ var Data = {
     images: {},
 }
 
-
+var Zoom = 1
 
 
 
@@ -66,6 +66,8 @@ angle = 0
 function rotateimg(img, x, y, angle)  
 {  
     // Each loop we rotate the image  
+    let w = img.width*Zoom
+    let h = img.height*Zoom
 
     var surfacesurfaceContext = canvas.getContext('2d');  
 
@@ -73,13 +75,13 @@ function rotateimg(img, x, y, angle)
     // Save the current context  
     surfacesurfaceContext.save();  
     // Translate to the center point of our image  
-    surfacesurfaceContext.translate(img.width * 0.5 + x, img.height * 0.5 + y);  
+    surfacesurfaceContext.translate(w * 0.5  + (x), h * 0.5  + (y));  
     // Perform the rotation  
     surfacesurfaceContext.rotate(DegToRad(angle));  
     // Translate back to the top left of our image  
-    surfacesurfaceContext.translate(-img.width * 0.5 - x, -img.height * 0.5 - y);  
+    surfacesurfaceContext.translate(-w * 0.5  - (x), -h * 0.5 - (y));  
     // Finally we draw the image 
-    surfacesurfaceContext.drawImage(img, x, y);  
+    surfacesurfaceContext.drawImage(img, x, y, w, h);  
     // And restore the context ready for the next loop  
     surfacesurfaceContext.restore();   
 } 

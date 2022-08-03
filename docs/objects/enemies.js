@@ -3,9 +3,9 @@ var Evolution = {
         Reaserch (every time reaserch is done: +number of previous reaserches)
         Ores Mined +0.001
         Buildings Placed +0.02
-
+        Time +0.009 per minute
     */ 
-   spawnCooldown: 7000,
+   spawnCooldown: 12000,
    enemySpeed: 2
 }
 
@@ -19,7 +19,30 @@ class Enemy extends Hitbox {
         this.vy = 0
         this.speed = Evolution.enemySpeed
         this.update = () => {
-            if(Math.hypot(Player.x - this.x, Player.y - this.y) < 600 && this.target === null) {
+            function wander(e) {
+                let seed = Math.random()
+                if(seed < 0.025) {
+                    console.log(seed)
+                    if(seed < 0.005) {
+                        e.vx = e.speed
+                    }
+                    else if(seed < 0.010) {
+                        e.vx = -e.speed
+                    }
+                    else if(seed < 0.015) {
+                        e.vy = e.speed
+                    }
+                    else if(seed < 0.020) {
+                        e.vy = -e.speed
+                    }
+                    else {
+                        e.vx = 0
+                        e.vy = 0
+                    }
+                }
+            }
+
+            if(Math.hypot(Player.x - this.x, Player.y - this.y) < 60 && this.target === null) {
                 this.target = Player
             }
             if(this.target !== null) {
@@ -35,7 +58,12 @@ class Enemy extends Hitbox {
                 if(Math.hypot(this.target.x - this.x, this.target.y - this.y) > 800) {
                     this.target = null
                 }
-                let movex = true
+                
+                
+            } else {
+                wander(this)
+            }
+            let movex = true
                 let movey = true
                 for(let h of this.world.metadata.hitboxes) {
                     if(h.id !== "spawnArea" && h !== this) {
@@ -47,12 +75,11 @@ class Enemy extends Hitbox {
                         }
                     }
                 }
-                if (movex) {
-                    this.x += this.vx
-                } 
-                if (movey) {
-                    this.y += this.vy
-                }
+            if (movex) {
+                this.x += this.vx
+            } 
+            if (movey) {
+                this.y += this.vy
             }
         }
     }
@@ -100,23 +127,25 @@ class Hive extends Hitbox {
         this.render = () => {
             if(debugActive) {
                 ctx.fillStyle = "#ffffff"
-                ctx.fillText(this.spawnCooldown, this.x+cx + 64, this.y+cy + 64)
+                ctx.fillText(this.spawnCooldown, (this.x+cx + 64)*Zoom, (this.y+cy + 64)*Zoom)
             }
         }
     }
 }
 
+addBuild(new Enemy(14*64,14*64, Player.metadata.currentWorld))
 
 
-for(let i = 0; i < 500; i++) {
-    let x = Math.floor( Math.random() * currentWorld.width * 64)
-    let y = 64*currentWorld.height - Math.floor( Math.random() * 16 * 64 ) 
+for(let i = 0; i < 80; i++) {
+    let x = Math.floor( Math.random() * (currentWorld.width - 3) * 64)
+    let y = 64*currentWorld.height - Math.floor( Math.random() * 8 * 64 ) -192
     let c = false
     for(let h of currentWorld.metadata.hitboxes) {
         if(overlapping(h, {x:x, y:y, w:3*64, h:3*64}) && h.id !== "spawnArea") {
             c = true
         }
     }
+
     if(!c) {
         currentWorld.metadata.hitboxes.push(new Hive(x, y))
     }
