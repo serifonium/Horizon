@@ -59,7 +59,7 @@ setInterval(() => {
     ctx.font = "16px Arial"
     ctx.fillText(chatMessage, Player.x+32+cx, Player.y-16+cy)
     renderHotbar()
-    //mapRender()
+    mapRender()
 
     tick = Date.now()
     loopTick++

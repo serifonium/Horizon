@@ -23,13 +23,7 @@ class World {
     constructor(w, h, startup) {
         this.width = w
         this.height = h
-        this.grid = []
-        for(let a = 0; a < w; a++) {
-            this.grid[a] = []
-            for(let b = 0; b < h; b++) {
-                this.grid[a][b] = new Tile(a, b, "grass", this)
-            }
-        }
+        this.grid = new Chunks()
         this.startup = startup
         this.metadata = {
             trains: [],
@@ -41,31 +35,34 @@ class World {
         this.render = () => {
             ctx.fillStyle = "#111111"
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
-            for(let a = 0; a < this.width; a++) {
-                for(let b = 0; b < this.height; b++) {
-                    let tile = this.grid[a][b]
-                    if(tile.type === "grass") {
-                        ctx.drawImage(Data.images.grass, a*64+cx, b*64+cy)
-                    } if(tile.type === "metal") {
-                        ctx.drawImage(Data.images.metal, a*64+cx, b*64+cy)
-                    } if(tile.type === "void") {
-                        ctx.fillStyle = "#111111"
-                        ctx.fillRect(a*64+cx, b*64+cy, 64, 64)
-                    }
-                    if(tile.type === undefined) {
-                        ctx.fillStyle = "#ffffff"
-                        ctx.fillRect(a*64+cx, b*64+cy, 64, 64)
+            var playerChunkPos = v(-Math.floor(cx/(this.grid.options.rows*64)), -Math.floor(cy/(this.grid.options.columns*64))),
+                loadingRange = ((3)*2)+1,
+                visableChunks = this.grid.requestChunks(
+                    (playerChunkPos.x-(Math.floor(loadingRange/2))),
+                    playerChunkPos.y-(Math.floor(loadingRange/2)),
+                    Math.floor(loadingRange),
+                    Math.floor(loadingRange)
+                    )
+            for (let i = 0; i < visableChunks.length; i++) {
+                const chunk = visableChunks[i];
+                console.log(chunk.pos)
+                let chunkPos = v(chunk.pos.x*this.grid.options.rows*64, chunk.pos.y*this.grid.options.columns*64)
+
+                for (let chx = 0; chx < chunk.grid.length; chx++) {
+                    const row = chunk.grid[chx];
+                    for (let chy = 0; chy < row.length; chy++) {
+                        const tile = row[chy];
+                        if(tile.type === "void") {
+                            ctx.fillStyle = "#111111"
+                            ctx.fillRect(chx*64+cx, chy*64+cy, 64, 64)
+                        } else {
+                            ctx.drawImage(Data.images[tile.type], chunkPos.x+(chx*64+cx), chunkPos.y+(chy*64+cy))
+                            
+                        }
                     }
                 }
             }
-            for(let a = 0; a < this.width; a++) {
-                for(let b = 0; b < this.height; b++) {
-                    let tile = this.grid[a][b]
-                    if(tile.decor === "rail") {
-                        ctx.drawImage(Data.images.rail, a*64+cx, b*64+cy)
-                    }
-                }
-            }
+            
             
             for (let t of this.metadata.trains) {
                 t.render()
