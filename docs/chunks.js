@@ -68,11 +68,7 @@ function getTileValue(x, y) {
 
     // Shallow Water
     if (
-<<<<<<< HEAD
         Math.sin(y/(config.landSectionWidth/2))  +  (waterNoise*0.1)
-=======
-        Math.sin(y/(config.landSectionWidth/2))  +  (waterNoise*0.7)
->>>>>>> ae0ffaa68847163020c491d16d525bfa454658bd
          > config.shallowWaterFrequency
          ) {
         val = "water"
