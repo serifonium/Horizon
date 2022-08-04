@@ -424,6 +424,40 @@ class Chest extends Hitbox {
         }
     }
 }
+
+class Fabricator extends Hitbox {
+    constructor(x, y) {
+        super(x, y, 2*64, 2*64)
+        this.render = () => {ctx.drawImage(Data.images.fabricator, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, Data.images.fabricator.width*Zoom, Data.images.fabricator.height*Zoom)}
+    }
+}
+class WaterCollector extends Hitbox {
+    constructor(x, y) {
+        super(x, y, 1*64, 2*64)
+    }
+}
+class PipeNetwork {
+    constructor() {
+
+    }
+}
+class Pipe extends Hitbox {
+    constructor(x, y) {
+        super(x, y, 1*64, 1*64)
+        this.world = Player.metadata.currentWorld
+        this.render = () => {
+            ctx.fillStyle = "#333333"
+            ctx.fillRect(this.pos.x+cx, this.pos.y+cy, 64, 64)
+        }
+        this.network = undefined
+    }
+    checkNetwork() {
+        let up = this.world.grid.requestTile(Math.floor(this.pos.x/64)-1, Math.floor(this.pos.y/64)) !== undefined? this.world.grid.requestTile(Math.floor(this.pos.x/64)-1, Math.floor(this.pos.y/64)): undefined
+    }
+}
+
+
+
 /*
 for (let i = 3; i < 10; i++) {addBuild(new Belt(5*64, i*64, 0))}
 for (let i = 4; i < 8; i++) {addBuild(new Belt(7*64, i*64, 2))}
