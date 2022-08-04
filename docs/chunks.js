@@ -4,8 +4,9 @@
 // .pos ? v()
 // .chunkPos ? v()
 // .id ? newId()
-
-
+function getNoise(pos, scale, id="game") {
+    return new SimplexNoise(id).noise2D(pos.x*scale, pos.y*scale)
+}
 
 
 
@@ -39,22 +40,41 @@ function getTileValue(x, y) {
 	greenLandWidth:40, // Width of the non-wasteland
 	
 	landSectionWidth:20, // Height of water/land sections
-	shallowWaterFrequency:3, // Frequency of shallow water
+	shallowWaterFrequency:0.33, // Frequency of shallow water
     }
 
 
-    var val = "grass"
+    var val = "grass",
+        seed = "game"
+
+
+
+    var wasteLandNoise = getNoise(v(x, y), 5, seed+"wasteland")
+
+
+    // Wasteland
+    if (
+        ( Math.abs(x) + (wasteLandNoise*5))
+        >(config.greenLandWidth/2) 
+        ) {
+	val = "wasteland"
+    }
+
+
+
+    var waterNoise = getNoise(v(x, y), 0.05, seed+"shallowWater")
+
 
 
     // Shallow Water
-    if ((Math.floor((y-12)/config.landSectionWidth) % config.shallowWaterFrequency) == 0) {
+    if (
+        Math.sin(y/(config.landSectionWidth/2))  +  (waterNoise*0.3)
+         > config.shallowWaterFrequency
+         ) {
         val = "water"
     }
 
-    // Wasteland
-    if (Math.abs(x)>(config.greenLandWidth/2) ) {
-	val = "wasteland"
-    }
+    
     return val
 
 
@@ -84,9 +104,8 @@ class Chunks {
     constructor(options) {
         this.options = {
             rows: 5,
-            columns: 5,
-            width: 10,
-            height: 10,
+            columns:5,
+            
             xSet: randInt(-1e6, 1e6),
             ySet: randInt(-1e6, 1e6),
             ...options,

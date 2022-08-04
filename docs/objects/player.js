@@ -22,11 +22,11 @@ var Player = {
         }
         Player.metadata.currentTile = getTile(Player.x, Player.y)
 
-        if(getTile(Player.x + Player.vx, Player.y).type !== "water") {
+        if(getTile(Player.x + Player.vx, Player.y).type !== "s") {
             if(Player.metadata.currentTile.type === "shallowWater") Player.x += Player.vx/2
             else Player.x += Player.vx
         }
-        if(getTile(Player.x, Player.y + Player.vy).type !== "water") {
+        if(getTile(Player.x, Player.y + Player.vy).type !== "s") {
             if(Player.metadata.currentTile.type === "shallowWater") Player.y += Player.vy/2
             else Player.y += Player.vy
         }
