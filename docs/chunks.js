@@ -4,8 +4,9 @@
 // .pos ? v()
 // .chunkPos ? v()
 // .id ? newId()
-
-
+function getNoise(pos, scale, id="game") {
+    return new SimplexNoise(id).noise2D(pos.x*scale, pos.y*scale)
+}
 
 
 
@@ -25,19 +26,69 @@ function tileArray2d(e, t, n, r, c) {
         a[e] = new Array(t);
         for (let t = 0; t < a[e].length; t++)
             a[e][t] = new cTile(
-                n * 1 + e * (1 / c.options.rows),
-                r * 1 + t * (1 / c.options.columns)
+                e + (n * c.options.rows),
+                t + (r * c.options.columns)
             );
     }
     return a;
 }
 
+function getTileValue(x, y) {
+
+
+    var config = {
+	greenLandWidth:40, // Width of the non-wasteland
+	
+	landSectionWidth:20, // Height of water/land sections
+	shallowWaterFrequency:0.33, // Frequency of shallow water
+    }
+
+
+    var val = "grass",
+        seed = "game"
+
+
+
+    var wasteLandNoise = getNoise(v(x, y), 5, seed+"wasteland")
+
+
+    // Wasteland
+    if (
+        ( Math.abs(x) + (wasteLandNoise*5))
+        >(config.greenLandWidth/2) 
+        ) {
+	val = "wasteland"
+    }
+
+
+
+    var waterNoise = getNoise(v(x, y), 0.05, seed+"shallowWater")
+
+
+
+    // Shallow Water
+    if (
+        Math.sin(y/(config.landSectionWidth/2))  +  (waterNoise*0.3)
+         > config.shallowWaterFrequency
+         ) {
+        val = "water"
+    }
+
+    
+    return val
+
+
+
+    /*
+t < -5 && (Math.floor(t)%25===0  Math.floor(t+1)%25===0  Math.floor(t+2)%25===0)? this.type = "shallowWater" : 
+    e > 9.9  e < -10  t > 9.9 ? this.type = "water" : (t > 6.9 ? this.type = "wasteland" : this.type = "grass")
+*/
+}
 
 function cTile(e, t, n = !0) {
     this.pos = v(e, t)
-    t < -5 && (Math.floor(t)%25===0 || Math.floor(t+1)%25===0 || Math.floor(t+2)%25===0)? this.type = "shallowWater" : 
-    e > 9.9 || e < -10 || t > 9.9 ? this.type = "water" : (t > 6.9 ? this.type = "wasteland" : this.type = "grass")
-    //this.type = "grass"
+    this.type = getTileValue(e, t)
+
 }
 function cChunk(e, t) {
 
@@ -53,9 +104,8 @@ class Chunks {
     constructor(options) {
         this.options = {
             rows: 5,
-            columns: 5,
-            width: 10,
-            height: 10,
+            columns:5,
+            
             xSet: randInt(-1e6, 1e6),
             ySet: randInt(-1e6, 1e6),
             ...options,
