@@ -17,6 +17,7 @@ class Enemy extends Hitbox {
         this.target = null
         this.vx = 0
         this.vy = 0
+        this.id = newId()
         this.speed = Evolution.enemySpeed
         this.update = () => {
             function wander(e) {
@@ -91,8 +92,9 @@ class Hive extends Hitbox {
         this.renderColor = "#ff5555"
         this.lastTick = Date.now()
         this.tick = Date.now()
+        this.id = newId()
         this.spawnArea = new Hitbox(this.x - 128, this.y - 128, this.w + 256, this.h + 256)
-        this.spawnArea.id = "spawnArea"
+        this.spawnArea.type = "spawnArea"
         this.spawnArea.world.metadata.hitboxes.push(this.spawnArea)
         this.spawnArea.renderColor = "#ff0000"
         this.update = () => {
@@ -106,7 +108,7 @@ class Hive extends Hitbox {
                         let loc = {x: Math.floor(Math.random()*(this.spawnArea.w - 48)+this.spawnArea.x), y: Math.floor(Math.random()*(this.spawnArea.h - 48)+this.spawnArea.y), w: 48, h: 48}
                         for(let h of this.world.metadata.hitboxes) {
                             if (overlapping(loc, h)) {
-                                if(h.id !== "spawnArea") {
+                                if(h.type !== "spawnArea") {
                                     overlap = true
                                 }
                             }
@@ -133,7 +135,7 @@ class Hive extends Hitbox {
     }
 }
 
-addBuild(new Enemy(14*64,14*64, Player.metadata.currentWorld))
+//addBuild(new Enemy(14*64,14*64, Player.metadata.currentWorld))
 
 /*
 for(let i = 0; i < 80; i++) {
@@ -168,10 +170,10 @@ class Defender extends Hitbox {
         i = {x: Math.floor(Math.random()*(320-192)), y: Math.floor(Math.random()*(320-192))}
         currentWorld.grid.insertMob(r.pos.x, r.pos.y, new Hive(320*r.pos.x+i.x, 320*r.pos.y+i.y))
     }
-} {
-    let y = currentWorld.grid.requestChunks(-11, -1, 20, 3)
+} /* {
+    let y = currentWorld.grid.requestChunks(-11, 7, 20, 3)
     for(let r of y) {
         console.log(r)
         currentWorld.grid.insertMob(r.pos.x, r.pos.y, new Hive(320*r.pos.x, 320*r.pos.y))
     }
-}
+}*/

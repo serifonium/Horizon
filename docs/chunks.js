@@ -172,6 +172,9 @@ class Chunks {
         }
     }
     insertMob(e, t, n) {
+        console.log(
+            e, t, this.requestChunk(e, t)
+        )
         let r = this.requestChunk(e, t);
         return this.removeMob(e, t, n.id), r.mobiles.push(n), n;
     }
@@ -184,5 +187,11 @@ class Chunks {
             this.insertMob(chunkPos.x, chunkPos.y, mobile)
 
         }
+    }
+    tileToChunk(e, t) {
+        console.log(Math.floor(e/5), Math.floor(t/5))
+        let f = Math.floor(e/5)
+        let g =Math.floor(t/5)
+        return this.requestChunk(f, g)
     }
 };

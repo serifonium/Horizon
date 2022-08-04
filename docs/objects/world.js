@@ -93,6 +93,9 @@ class World {
             this.startup(this)
         }
     }
+    rockFill(x, y) {
+        let r = this.grid.requestChunk(x, y)
+    }
 }
 currentWorld = new World(200, 150)
 /*
