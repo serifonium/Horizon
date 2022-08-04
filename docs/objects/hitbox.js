@@ -4,6 +4,7 @@ class Hitbox {
         this.y = y
         this.w = w
         this.h = h
+        this.id = newId()
         this.startup = startup  
         this.update = update
         this.debugRender = () => {

@@ -14,11 +14,11 @@ function mapRender() {
             ctx.fillStyle = "#444444"
             if(h instanceof Enemy || h instanceof Hive) ctx.fillStyle = "#ff4444"
 
-            if(h.id != "spawnArea") {
-            ctx.fillRect(sx+h.x/16,sy+h.y/16, h.w/16, h.h/16)
+            if(h.type != "spawnArea") {
+                ctx.fillRect(sx+h.x/16,sy+h.y/16, h.w/16, h.h/16)
             }
         }
-        
+
         ctx.fillStyle = "ffffff"
         ctx.fillRect(sx+Player.x/16,sy+Player.y/16, 64/16, 64/16)
     }
