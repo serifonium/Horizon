@@ -25,8 +25,8 @@ function tileArray2d(e, t, n, r, c) {
         a[e] = new Array(t);
         for (let t = 0; t < a[e].length; t++)
             a[e][t] = new cTile(
-                n * 1 + e * (1 / c.options.rows),
-                r * 1 + t * (1 / c.options.columns)
+                n * 1 + e * (c.options.rows),
+                r * 1 + t * (c.options.columns)
             );
     }
     return a;
