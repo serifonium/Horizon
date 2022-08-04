@@ -26,7 +26,7 @@ function v(t, n) {
     return Math.sqrt(Math.pow(e, 2) + Math.pow(r, 2));
   }
   function getAngle(t, n) {
-    return -Math.atan2(t.x - n.x, t.y - n.y) + 0.5 * Math.PI;
+    return (Math.atan2(t.x - n.x, t.y - n.y)) / (Math.PI/180)
   }
   function snap(t, n) {
     return Math.floor(t / n) * n;

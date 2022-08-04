@@ -4,6 +4,7 @@ function mapRender() {
     if(mapOpen) {
         let sx = window.innerWidth/2 
         let sy = window.innerHeight/2
+        /*
         for(let i = 0; i < 4; i++) {
             let o = ["x1y1array", "x0y1array", "x1y0array", "x0y0array"]
             for(let e in Player.metadata.currentWorld.grid.chunkMaps[o[i]].array) {
@@ -25,7 +26,65 @@ function mapRender() {
                     }
                 }
             }
-        }/*
+        }
+        */
+       
+       var chunkMaps = Player.metadata.currentWorld.grid.chunkMaps,
+            time = Math.floor(new Date().getTime()/10)%360
+
+
+
+        for (let i = 0; i < Object.keys(chunkMaps).length; i++) {
+            var mapKey = Object.keys(chunkMaps)[i],
+                map = chunkMaps[mapKey],
+                array = map.array
+
+            if (array instanceof Array) {
+
+                for (let chunkx = 0; chunkx < array.length; chunkx++) {
+                    const row = array[chunkx];
+                    if (row instanceof Array) {
+
+                        for (let chunky = 0; chunky < row.length; chunky++) {
+                            var chunk = row[chunky]
+
+                            if (!!chunk) {
+                                var grid = chunk.grid
+
+                                for (let x = 0; x < grid.length; x++) {
+                                    const gridRow = grid[x];
+                                    for (let y = 0; y < gridRow.length; y++) {
+                                        const tile = gridRow[y];
+                                        
+                                        var zV = Math.random()*50
+
+                                    
+
+                                        
+                                        ctx.fillStyle = {
+                                            grass:`rgb(${zV}, 255, ${zV})`,
+                                            water:`rgb(${zV},${zV},255)`,
+                                            wasteland:`rgb(255,${zV},${zV})`,
+                                        }[chunk.grid[x][y].type]
+
+                                        var mts = 2
+                                        
+                                        ctx.fillRect(sx + (tile.pos.x*mts), sy + (tile.pos.y*mts), mts, mts)
+                                        
+                                    }
+                                }
+                            }
+
+
+                            
+                        }
+                    }
+                }
+            }
+            
+        }
+       
+        /*
         for(let h of Player.metadata.currentWorld.metadata.hitboxes) {
             ctx.fillStyle = "#444444"
             if(h instanceof Enemy || h instanceof Hive) ctx.fillStyle = "#ff4444"

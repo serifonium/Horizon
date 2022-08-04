@@ -17,7 +17,7 @@ function chunkArray2d(e, t, n = {}, r = v(1, 1), c) {
         for (let t = 0; t < a[e].length; t++)
             a[e][t] = new cChunk(v(e * r.x, t * r.y), c);
     }
-    return { array: a, data: n };
+    return { array: a, data: n, pos: r };
 }
 function tileArray2d(e, t, n, r, c) {
 
@@ -39,8 +39,8 @@ function getTileValue(x, y) {
     var config = {
 	greenLandWidth:80, // Width of the non-wasteland
 	
-	landSectionWidth:10, // Height of water/land sections
-	shallowWaterFrequency:0.33, // Frequency of shallow water
+	landSectionWidth:20, // Height of water/land sections
+	shallowWaterFrequency:0.7, // Frequency of shallow water
     }
 
 
@@ -68,7 +68,7 @@ function getTileValue(x, y) {
 
     // Shallow Water
     if (
-        Math.sin(y/(config.landSectionWidth/2))  +  (waterNoise*0.5)
+        Math.sin(y/(config.landSectionWidth/2))  +  (waterNoise*0.1)
          > config.shallowWaterFrequency
          ) {
         val = "water"
