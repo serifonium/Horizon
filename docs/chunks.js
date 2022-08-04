@@ -25,18 +25,35 @@ function tileArray2d(e, t, n, r, c) {
         a[e] = new Array(t);
         for (let t = 0; t < a[e].length; t++)
             a[e][t] = new cTile(
-                n * 1 + e * (c.options.rows),
-                r * 1 + t * (c.options.columns)
+                e + (n * c.options.rows),
+                t + (r * c.options.columns)
             );
     }
     return a;
 }
 
 function getTileValue(x, y) {
+
+
+    var config = {
+	greenLandWidth:40, // Width of the non-wasteland
+	
+	landSectionWidth:20, // Height of water/land sections
+	shallowWaterFrequency:3, // Frequency of shallow water
+    }
+
+
     var val = "grass"
-    console.log(x, y)
-    if ((Math.floor(y/2) % 5) == 1) {
+
+
+    // Shallow Water
+    if ((Math.floor((y-12)/config.landSectionWidth) % config.shallowWaterFrequency) == 0) {
         val = "water"
+    }
+
+    // Wasteland
+    if (Math.abs(x)>(config.greenLandWidth/2) ) {
+	val = "wasteland"
     }
     return val
 
