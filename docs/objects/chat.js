@@ -8,7 +8,7 @@ function sendChatMsg(txt, time, colour) {
 }
 
 sendChatMsg("Welcome to Horizon!", 1200, "#3333ff")
-sendChatMsg("Any requests/bug reports should be sent to me via: github.com/serifonium", 1200, "#3333ff")
+sendChatMsg("Any requests/bug reports should be sent to me via github", 1200, "#3333ff")
 
 document.addEventListener("keydown", (e) => {
     if(!chatOpen) {

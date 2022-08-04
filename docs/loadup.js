@@ -32,7 +32,57 @@ Data.recipes = {
         time: 500
     },
 }
-    
+Data.fRecipes = {
+    "Transport Belt": {
+        ing: [{name: "Iron", amount: 10}, {name: "Iron Gear", amount: 10}],
+        prod: [{name: "Transport Belt", amount: 20}],
+        time: 12000
+    }, "Inserter": {
+        ing: [{name: "Iron", amount: 5}, {name: "Iron Gear", amount: 3}, {name: "Electronic", amount: 1}],
+        prod: [{name: "Inserter", amount: 5}],
+        time: 5000
+    }, "Chest": {
+        ing: [{name: "Wood", amount: 5}],
+        prod: [{name: "Chest", amount: 1}],
+        time: 1000
+    }, "Landfill": {
+        ing: [{name: "Stone", amount: 50}],
+        prod: [{name: "Landfill", amount: 3}],
+        time: 1000
+    }, "Wall": {
+        ing: [{name: "Stone", amount: 100}],
+        prod: [{name: "Wall", amount: 5}],
+        time: 5000
+    }, "Turret": {
+        ing: [{name: "Iron", amount: 15},{name: "Copper", amount: 5}],
+        prod: [{name: "Turret", amount: 1}],
+        time: 3000
+    }, "Substation": {
+        ing: [{name: "Electronic", amount: 15}, {name: "Iron", amount: 8}],
+        prod: [{name: "Landfill", amount: 2}],
+        time: 5000
+    }, "Power Pole": {
+        ing: [{name: "Copper", amount: 15}, {name: "Electronic", amount: 5}],
+        prod: [{name: "Landfill", amount: 5}],
+        time: 8000
+    }, "Pipe": {
+        ing: [{name: "Iron", amount: 10} ],
+        prod: [{name: "Pipe", amount: 10}],
+        time: 3000
+    }, "Water Collector": {
+        ing: [{name: "Copper", amount: 15}, {name: "Iron", amount: 5}, {name: "Iron Gear", amount: 2}],
+        prod: [{name: "Water Collector", amount: 1}],
+        time: 4000
+    }, "Boiler": {
+        ing: [{name: "Copper", amount: 25}, {name: "Iron", amount: 10}, {name: "Iron Gear", amount: 8}],
+        prod: [{name: "Boiler", amount: 1}],
+        time: 1000
+    }, "Steam Engine": {
+        ing: [{name: "Copper", amount: 40}, {name: "Iron", amount: 30}, {name: "Iron Gear", amount: 15}],
+        prod: [{name: "Steam Engine", amount: 1}],
+        time: 1000
+    }, 
+}
 
 addImg("grass")
 addImg("water")
@@ -44,7 +94,7 @@ addImg("assembly")
 addImg("belt")
 addImg("woodChest")
 addImg("inserter")
-//addImg("grass")
+addImg("fabricator")
 addImg("ironPlate", "items/")
 
 
