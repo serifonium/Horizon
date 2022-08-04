@@ -111,5 +111,11 @@ function v(t, n) {
     }
 }
   
-   
+  function findXinY(array, find) {
+    let b = []
+    for(let a in array) {
+      if(find(a)) b.push(a)
+    }
+    return b
+  }
    

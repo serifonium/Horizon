@@ -166,7 +166,7 @@ class Defender extends Hitbox {
 {
     let y = currentWorld.grid.requestChunks(-11, 7, 20, 3)
     for(let r of y) {
-        console.log(r)
+        //console.log(r)
         i = {x: Math.floor(Math.random()*(320-192)), y: Math.floor(Math.random()*(320-192))}
         currentWorld.grid.insertMob(r.pos.x, r.pos.y, new Hive(320*r.pos.x+i.x, 320*r.pos.y+i.y))
     }

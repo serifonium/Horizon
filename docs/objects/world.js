@@ -107,7 +107,6 @@ for(let a = 2; a < 3; a++) {
 
 Player.metadata.currentWorld = currentWorld
 
-currentWorld.grid.requestTile(0, 0).type = "water"
 
 
 
