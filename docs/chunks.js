@@ -32,12 +32,25 @@ function tileArray2d(e, t, n, r, c) {
     return a;
 }
 
+function getTileValue(x, y) {
+    var val = "grass"
+    if (Math.floor(x/6) % 5) {
+        val = "water"
+    }
+    return val
+
+
+
+    /*
+t < -5 && (Math.floor(t)%25===0  Math.floor(t+1)%25===0  Math.floor(t+2)%25===0)? this.type = "shallowWater" : 
+    e > 9.9  e < -10  t > 9.9 ? this.type = "water" : (t > 6.9 ? this.type = "wasteland" : this.type = "grass")
+*/
+}
 
 function cTile(e, t, n = !0) {
     this.pos = v(e, t)
-    t < -5 && (Math.floor(t)%25===0 || Math.floor(t+1)%25===0 || Math.floor(t+2)%25===0)? this.type = "shallowWater" : 
-    e > 9.9 || e < -10 || t > 9.9 ? this.type = "water" : (t > 6.9 ? this.type = "wasteland" : this.type = "grass")
-    //this.type = "grass"
+    this.type = getTileValue(e, t)
+
 }
 function cChunk(e, t) {
 
