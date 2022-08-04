@@ -1,5 +1,13 @@
 
 
+// Mobiles will require
+// .pos ? v()
+// .chunkPos ? v()
+// .id ? newId()
+
+
+
+
 
 function chunkArray2d(e, t, n = {}, r = v(1, 1), c) {
     let a = new Array(e);
@@ -107,7 +115,7 @@ class Chunks {
     removeMob(e, t, n) {
         let r = this.requestChunk(e, t);
         for (let e = 0; e < r.mobiles.length; e++) {
-            if (r.mobiles[e].id == n) {
+            if (r.mobiles[e].id == n.id) {
                 r.mobiles.splice(e, 1);
                 break;
             }
@@ -116,5 +124,15 @@ class Chunks {
     insertMob(e, t, n) {
         let r = this.requestChunk(e, t);
         return this.removeMob(e, t, n.id), r.mobiles.push(n), n;
+    }
+    revaulateMobile(mobile) {
+        var tilePos = v(Math.floor(mobile.pos.x/64), Math.floor(mobile.pos.y/64)),
+            chunkPos = v(Math.floor(tilePos.x/this.options.rows), Math.floor(tilePos.y/this.options.columns))
+
+        if (!vc(chunkPos, mobile.chunkPos)) {
+            this.removeMob(mobile.chunkPos.x, mobile.chunkPos.y, mobile)
+            this.insertMob(chunkPos.x, chunkPos.y, mobile)
+
+        }
     }
 };
