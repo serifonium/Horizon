@@ -54,7 +54,7 @@ Data.sfx = {
 
 function overlapping(obj1, obj2) {
     // Check x and y for overlap
-    if (obj2.x > obj1.w + obj1.x || obj1.x > obj2.w + obj2.x || obj2.y > obj1.h + obj1.y || obj1.y > obj2.h + obj2.y) {
+    if (obj2.pos.x > obj1.w + obj1.pos.x || obj1.pos.x > obj2.w + obj2.pos.x || obj2.pos.y > obj1.h + obj1.pos.y || obj1.pos.y > obj2.h + obj2.pos.y) {
         return false;
     }
     return true;

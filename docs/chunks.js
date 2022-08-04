@@ -172,9 +172,7 @@ class Chunks {
         }
     }
     insertMob(e, t, n) {
-        console.log(
-            e, t, this.requestChunk(e, t)
-        )
+        
         let r = this.requestChunk(e, t);
         return this.removeMob(e, t, n.id), r.mobiles.push(n), n;
     }

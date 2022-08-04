@@ -257,7 +257,24 @@ class Item extends Hitbox {
 class Belt extends Hitbox {
     constructor(x, y, r) {
         super(x, y, 64, 64, () => {}, () => {
+            var chunks = Player.metadata.currentWorld.grid.requestChunks(this.chunkPos.x-1, this.chunkPos.y, 1, 1),
+                chunkMobiles = Player.metadata.currentWorld.grid.getMobiles(chunks).mobs
 
+            for (let i = 0; i < chunkMobiles.length; i++) {
+                const mob = chunkMobiles[i];
+                if (mob instanceof Item) {
+                    if (overlapping(mob, this) && mob.id != this.id) {
+                        var movement = [
+                            v(0, -1),
+                            v(1, 0),
+                            v(0, 1),
+                            v(-1, 0)
+                        ][this.rotation]
+                        mob.pos.x += movement.x
+                        mob.pos.y += movement.y
+                    }
+                }
+            }
         })
         this.world = Player.metadata.currentWorld
         this.rotation = r
@@ -276,9 +293,17 @@ class Belt extends Hitbox {
 class Inserter extends Hitbox {
     constructor(x, y, r) {
         super(x, y, 32, 32, () => {}, () => {
+            var chunks = Player.metadata.currentWorld.grid.requestChunks(this.chunkPos.x-1, this.chunkPos.y, 1, 1),
+                chunkMobiles = Player.metadata.currentWorld.grid.getMobiles(chunks).mobs
+
             if(this.heldItem === undefined) {
+
+                
+
+
                 let a = true
-                for(let h of Player.metadata.currentWorld.metadata.hitboxes) {
+                for(let h of chunkMobiles) {
+                    
                     if(h instanceof Item && a === true) {
                         if(overlapping(this.recivingHitbox, h)) {
                             this.heldItem = h
@@ -298,42 +323,45 @@ class Inserter extends Hitbox {
                         }
                     }
                     if(h instanceof Chest && a === true) {
+
                         if(overlapping(this.recivingHitbox, h)) {
                             if(h.output !== undefined) {
-                                let e = new Item(this.recivingHitbox.x, this.recivingHitbox.y, h.output, Data.images.ironPlate)
-                                addBuild(e)
-                                this.heldItem = this.world.metadata.hitboxes[this.world.metadata.hitboxes.length-1]
+                                let e = new Item(this.recivingHitbox.pos.x, this.recivingHitbox.pos.y, h.output, Data.images.ironPlate)
+                                addBuild(e.chunkPos.x, e.chunkPos.y, e)
+                                this.heldItem = e
                                 h.output = undefined
                             }
                         }
                     }
                 }
             } else {
+                
                 function letgo(i) {
                     let a = false
-                    for(let h of i.world.metadata.hitboxes) {
+                    for(let h of chunkMobiles) {
                         if(h instanceof Item) {
                             if(overlapping(i.heldItem, h) && i.heldItem !== h) {
                                 a = true
                             }
                         }
-                    } if (!a) i.heldItem = undefined
+                    } 
+                    if (!a) i.heldItem = undefined
                 } 
                 if(this.rotation === 0) {
-                    if(this.heldItem.y > this.pos.y - 48) {
-                        this.heldItem.y += -3
+                    if(this.heldItem.pos.y > this.pos.y - 48) {
+                        this.heldItem.pos.y += -3
                     } else {letgo(this)}
                 } else if(this.rotation === 1) {
-                    if(this.heldItem.x < this.pos.x + 48) {
-                        this.heldItem.x += 3
+                    if(this.heldItem.pos.x < this.pos.x + 48) {
+                        this.heldItem.pos.x += 3
                     } else {letgo(this)}
                 }  else if(this.rotation === 2) {
-                    if(this.heldItem.y < this.pos.y + 48) {
-                        this.heldItem.y += 3
+                    if(this.heldItem.pos.y < this.pos.y + 48) {
+                        this.heldItem.pos.y += 3
                     } else {letgo(this)}
                 }  else if(this.rotation === 3) {
-                    if(this.heldItem.x > this.pos.x - 48) {
-                        this.heldItem.x += -3
+                    if(this.heldItem.pos.x > this.pos.x - 48) {
+                        this.heldItem.pos.x += -3
                     } else {letgo(this)}
                 }
             }

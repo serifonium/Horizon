@@ -88,6 +88,7 @@ class World {
                 if(h.render !== undefined) h.render(h)
                 h.debugRender(h)
             }
+            
         }
         if(this.startup !== undefined) {
             this.startup(this)

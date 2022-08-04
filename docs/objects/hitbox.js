@@ -2,6 +2,10 @@ class Hitbox {
     constructor(x, y, w, h, startup = () => {}, update = () => {}, rigid = false) {
         this.id = newId()
         this.pos = v(x, y)
+        this.chunkPos = v(
+            Math.floor(this.pos.x/64/Player.metadata.currentWorld.grid.options.rows),
+            Math.floor(this.pos.y/64/Player.metadata.currentWorld.grid.options.columns)
+        )
         this.w = w
         this.h = h
         this.id = newId()
