@@ -96,11 +96,15 @@ class World {
                     Math.floor(loadingRange),
                     Math.floor(loadingRange)
                     )
-            var mobiles = this.grid.getMobiles(visableChunks).mobs,
+            var mobiles = new Array(),
                 doneMobs = new Array()
 
-            for (let i = 0; i < mobiles.length; i++) {
-                const mob = mobiles[i];
+            for (let i = 0; i < visableChunks.length; i++) {
+                const chunk = visableChunks[i];
+                mobiles = [...chunk.mobiles, ...mobiles]
+            }
+
+            for (let mob of mobiles) {
                 if (!doneMobs.includes(mob.id)) {
                     this.grid.revaulateMobile(mob)
                     doneMobs.push(mob.id)

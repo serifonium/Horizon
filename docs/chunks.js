@@ -179,9 +179,11 @@ class Chunks {
     revaulateMobile(mobile) {
         var tilePos = v(Math.floor(mobile.pos.x/64), Math.floor(mobile.pos.y/64)),
             chunkPos = v(Math.floor(tilePos.x/this.options.rows), Math.floor(tilePos.y/this.options.columns))
-
+        
         if (!vc(chunkPos, mobile.chunkPos)) {
+            console.log("yay")
             this.removeMob(mobile.chunkPos.x, mobile.chunkPos.y, mobile)
+            mobile.chunkPos = chunkPos
             this.insertMob(chunkPos.x, chunkPos.y, mobile)
 
         }
