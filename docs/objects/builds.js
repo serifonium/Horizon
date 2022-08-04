@@ -257,7 +257,42 @@ class Item extends Hitbox {
 class Belt extends Hitbox {
     constructor(x, y, r) {
         super(x, y, 64, 64, () => {}, () => {
+            var chunks = Player.metadata.currentWorld.grid.requestChunks(this.chunkPos.x-1, this.chunkPos.y, 1, 1),
+                chunkMobiles = Player.metadata.currentWorld.grid.getMobiles(chunks).mobs
 
+            for (let i = 0; i < chunkMobiles.length; i++) {
+                const mob = chunkMobiles[i];
+                if (mob instanceof Item) {
+                    if (overlapping(mob, this) && mob.id != this.id) {
+                        
+                        var beltMovementStr = 0
+
+                        if (this.rotation%2==0) {
+                            var a = ((this.pos.x+(this.w/2))-(mob.pos.x+(mob.w/2)))/32
+                            mob.pos.x += a
+                            beltMovementStr += a
+
+                        } else {
+                            var a = ((this.pos.y+(this.h/2))-(mob.pos.y+(mob.h/2)))/32
+                            mob.pos.y += a
+                            beltMovementStr += a
+
+                        }
+                        beltMovementStr = 1-((Math.abs(beltMovementStr)*0.6667))
+
+                        var movement = [
+                            v(0, -1),
+                            v(1, 0),
+                            v(0, 1),
+                            v(-1, 0)
+                        ][this.rotation]
+                        
+                        mob.pos.x += movement.x * beltMovementStr
+                        mob.pos.y += movement.y * beltMovementStr
+
+                    }
+                }
+            }
         })
         this.world = Player.metadata.currentWorld
         this.rotation = r
@@ -276,17 +311,17 @@ class Belt extends Hitbox {
 class Inserter extends Hitbox {
     constructor(x, y, r) {
         super(x, y, 32, 32, () => {}, () => {
+            var chunks = Player.metadata.currentWorld.grid.requestChunks(this.chunkPos.x-2, this.chunkPos.y-1, 3, 3),
+                chunkMobiles = Player.metadata.currentWorld.grid.getMobiles(chunks).mobs
+
             if(this.heldItem === undefined) {
+
+                
+
+
                 let a = true
-                for(let h of Player.metadata.currentWorld.metadata.hitboxes) {
-                    if(h instanceof Item && a === true) {
-                        if(overlapping(this.recivingHitbox, h)) {
-                            this.heldItem = h
-                            h.x = this.recivingHitbox.x
-                            h.y = this.recivingHitbox.y
-                            
-                        }
-                    }
+                for(let h of chunkMobiles) {
+                    
                     if(h instanceof Assembly && a === true) {
                         if(overlapping(this.recivingHitbox, h)) {
                             if(h.output !== undefined) {
@@ -298,75 +333,74 @@ class Inserter extends Hitbox {
                         }
                     }
                     if(h instanceof Chest && a === true) {
+
                         if(overlapping(this.recivingHitbox, h)) {
                             if(h.output !== undefined) {
-                                let e = new Item(this.recivingHitbox.x, this.recivingHitbox.y, h.output, Data.images.ironPlate)
-                                addBuild(e)
-                                this.heldItem = this.world.metadata.hitboxes[this.world.metadata.hitboxes.length-1]
+                                let e = new Item(this.recivingHitbox.pos.x, this.recivingHitbox.pos.y, h.output, Data.images.ironPlate)
+                                addBuild(e.chunkPos.x, e.chunkPos.y, e)
+                                this.heldItem = e
                                 h.output = undefined
                             }
                         }
                     }
                 }
             } else {
-                function letgo(i) {
-                    let a = false
-                    for(let h of i.world.metadata.hitboxes) {
-                        if(h instanceof Item) {
-                            if(overlapping(i.heldItem, h) && i.heldItem !== h) {
-                                a = true
-                            }
-                        }
-                    } if (!a) i.heldItem = undefined
-                } 
-                if(this.rotation === 0) {
-                    if(this.heldItem.y > this.pos.y - 48) {
-                        this.heldItem.y += -3
-                    } else {letgo(this)}
-                } else if(this.rotation === 1) {
-                    if(this.heldItem.x < this.pos.x + 48) {
-                        this.heldItem.x += 3
-                    } else {letgo(this)}
-                }  else if(this.rotation === 2) {
-                    if(this.heldItem.y < this.pos.y + 48) {
-                        this.heldItem.y += 3
-                    } else {letgo(this)}
-                }  else if(this.rotation === 3) {
-                    if(this.heldItem.x > this.pos.x - 48) {
-                        this.heldItem.x += -3
-                    } else {letgo(this)}
+                
+                if(!overlapping(this.heldItem, this)) {
+                    this.heldItem = undefined
+                } else {
+
+                    if(this.rotation === 0) {
+                            this.heldItem.pos.y += -3
+                    } else if(this.rotation === 1) {
+                        
+                            this.heldItem.pos.x += 3
+                        
+                    }  else if(this.rotation === 2) {
+                        
+                            this.heldItem.pos.y += 3
+                        
+                    }  else if(this.rotation === 3) {
+                        
+                            this.heldItem.pos.x += -3
+                        
+                    }
                 }
+
             }
         })
         this.heldItem = undefined
         this.world = Player.metadata.currentWorld
         this.rotation = r
+
+        var ioHitboxs = 30
+
         if(this.rotation === 0) {
-            this.recivingHitbox = new Hitbox(this.pos.x, this.pos.y + 48, 32, 32)
+            this.recivingHitbox = new Hitbox(this.pos.x, this.pos.y + ioHitboxs, 32, 32)
             Player.metadata.currentWorld.metadata.hitboxes.push(this.recivingHitbox)
             this.recivingHitbox.renderColor = "#cccc00"
-            this.outputHitbox = new Hitbox(this.pos.x, this.pos.y - 48, 32, 32)
+            this.outputHitbox = new Hitbox(this.pos.x, this.pos.y - ioHitboxs, 32, 32)
             Player.metadata.currentWorld.metadata.hitboxes.push(this.outputHitbox)
             this.outputHitbox.renderColor = "#00cccc"
         } if(this.rotation === 1) {
-            this.recivingHitbox = new Hitbox(this.pos.x - 48, this.pos.y, 32, 32)
+            this.recivingHitbox = new Hitbox(this.pos.x - ioHitboxs, this.pos.y, 32, 32)
             Player.metadata.currentWorld.metadata.hitboxes.push(this.recivingHitbox)
             this.recivingHitbox.renderColor = "#cccc00"
-            this.outputHitbox = new Hitbox(this.pos.x + 48, this.pos.y, 32, 32)
+            this.outputHitbox = new Hitbox(this.pos.x + ioHitboxs, this.pos.y, 32, 32)
             Player.metadata.currentWorld.metadata.hitboxes.push(this.outputHitbox)
             this.outputHitbox.renderColor = "#00cccc"
         } if(this.rotation === 2) {
-            this.recivingHitbox = new Hitbox(this.pos.x, this.pos.y - 48, 32, 32)
+            this.recivingHitbox = new Hitbox(this.pos.x, this.pos.y - ioHitboxs, 32, 32)
             Player.metadata.currentWorld.metadata.hitboxes.push(this.recivingHitbox)
             this.recivingHitbox.renderColor = "#cccc00"
-            this.outputHitbox = new Hitbox(this.pos.x, this.pos.y + 48, 32, 32)
+            this.outputHitbox = new Hitbox(this.pos.x, this.pos.y + ioHitboxs, 32, 32)
             Player.metadata.currentWorld.metadata.hitboxes.push(this.outputHitbox)
             this.outputHitbox.renderColor = "#00cccc"
         } if(this.rotation === 3) {
-            this.recivingHitbox = new Hitbox(this.pos.x + 48, this.pos.y, 32, 32)
+            this.recivingHitbox = new Hitbox(this.pos.x + ioHitboxs, this.pos.y, 32, 32)
             Player.metadata.currentWorld.metadata.hitboxes.push(this.recivingHitbox)
             this.recivingHitbox.renderColor = "#cccc00"
-            this.outputHitbox = new Hitbox(this.pos.x - 48, this.pos.y, 32, 32)
+            this.outputHitbox = new Hitbox(this.pos.x - ioHitboxs, this.pos.y, 32, 32)
             Player.metadata.currentWorld.metadata.hitboxes.push(this.outputHitbox)
             this.outputHitbox.renderColor = "#00cccc"
         }
@@ -400,7 +434,7 @@ class Chest extends Hitbox {
 
         this.world = Player.metadata.currentWorld
         this.contents = [
-            {name: "Iron", amount: 1000000}
+            {name: "Iron", amount: 10000}
         ]
         this.output = {name: "Iron", amount: 1}
 

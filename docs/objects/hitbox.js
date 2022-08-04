@@ -2,6 +2,10 @@ class Hitbox {
     constructor(x, y, w, h, startup = () => {}, update = () => {}, rigid = false) {
         this.id = newId()
         this.pos = v(x, y)
+        this.chunkPos = v(
+            Math.floor(this.pos.x/64/Player.metadata.currentWorld.grid.options.rows),
+            Math.floor(this.pos.y/64/Player.metadata.currentWorld.grid.options.columns)
+        )
         this.w = w
         this.h = h
         this.id = newId()
@@ -14,6 +18,8 @@ class Hitbox {
                 ctx.fillRect((this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom+(h-4)*Zoom, this.w*Zoom, 4*Zoom)
                 ctx.fillRect((this.pos.x+cx)*Zoom+(w-4)*Zoom, (this.pos.y+cy)*Zoom, 4*Zoom, this.h*Zoom)
                 ctx.fillRect((this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, 4*Zoom, this.h*Zoom)
+
+                ctx.fillText(`${this.chunkPos.x},${this.chunkPos.y}`, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom)
             }
         }
         this.rigid = rigid

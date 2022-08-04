@@ -88,6 +88,29 @@ class World {
                 if(h.render !== undefined) h.render(h)
                 h.debugRender(h)
             }
+            var playerChunkPos = v(-Math.floor(cx/(this.grid.options.rows*64)), -Math.floor(cy/(this.grid.options.columns*64))),
+                loadingRange = ((3)*2)+1,
+                visableChunks = this.grid.requestChunks(
+                    (playerChunkPos.x-(Math.floor(loadingRange/2))),
+                    playerChunkPos.y-(Math.floor(loadingRange/2)),
+                    Math.floor(loadingRange),
+                    Math.floor(loadingRange)
+                    )
+            var mobiles = new Array(),
+                doneMobs = new Array()
+
+            for (let i = 0; i < visableChunks.length; i++) {
+                const chunk = visableChunks[i];
+                mobiles = [...chunk.mobiles, ...mobiles]
+            }
+
+            for (let mob of mobiles) {
+                if (!doneMobs.includes(mob.id)) {
+                    this.grid.revaulateMobile(mob)
+                    doneMobs.push(mob.id)
+                }
+            }
+                
         }
         if(this.startup !== undefined) {
             this.startup(this)
