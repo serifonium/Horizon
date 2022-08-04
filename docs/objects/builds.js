@@ -448,13 +448,9 @@ function addBuild(x, y, b) {
     for(let h of Player.metadata.currentWorld.metadata.hitboxes) {
         if(overlapping(h, {x:x.x, y:x.y, w:x.y-1, h:x.h-1})) overlap = true
     } */
-<<<<<<< HEAD
     var cd = Player.metadata.currentWorld.grid
     if(!overlap) cd.insertMob(Math.floor(x/cd.options.rows), Math.floor(y/cd.options.columns), b)
     console.log(x, y, b)
-=======
-    if(!overlap) Player.metadata.currentWorld.grid.insertMob(x, y, b)
->>>>>>> 66c6d963002d8610e4be2ef7475ce4a4f03914d6
 }
 function fetchMobiles() {
     Player.metadata.currentWorld.grid
