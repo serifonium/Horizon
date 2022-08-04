@@ -22,7 +22,7 @@ class Enemy extends Hitbox {
             function wander(e) {
                 let seed = Math.random()
                 if(seed < 0.025) {
-                    console.log(seed)
+                    //console.log(seed)
                     if(seed < 0.005) {
                         e.vx = e.speed
                     }
@@ -135,7 +135,7 @@ class Hive extends Hitbox {
 
 addBuild(new Enemy(14*64,14*64, Player.metadata.currentWorld))
 
-
+/*
 for(let i = 0; i < 80; i++) {
     let x = Math.floor( Math.random() * (currentWorld.width - 3) * 64)
     let y = 64*currentWorld.height - Math.floor( Math.random() * 8 * 64 ) -192
@@ -149,12 +149,29 @@ for(let i = 0; i < 80; i++) {
     if(!c) {
         currentWorld.metadata.hitboxes.push(new Hive(x, y))
     }
-}
+}*/
 
 class Defender extends Hitbox {
     constructor(x, y) {
         super(x, y, 48, 48)
         this.follow = Player
         this.lifespan = 10*1000
+    }
+}
+
+
+
+{
+    let y = currentWorld.grid.requestChunks(-11, 7, 20, 3)
+    for(let r of y) {
+        console.log(r)
+        i = {x: Math.floor(Math.random()*(320-192)), y: Math.floor(Math.random()*(320-192))}
+        currentWorld.grid.insertMob(r.pos.x, r.pos.y, new Hive(320*r.pos.x+i.x, 320*r.pos.y+i.y))
+    }
+} {
+    let y = currentWorld.grid.requestChunks(-11, -1, 20, 3)
+    for(let r of y) {
+        console.log(r)
+        currentWorld.grid.insertMob(r.pos.x, r.pos.y, new Hive(320*r.pos.x, 320*r.pos.y))
     }
 }

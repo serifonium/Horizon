@@ -19,7 +19,7 @@ function signup() {
     let user = document.getElementById("userup").value
     let pass = document.getElementById("passup").value
     socket.emit("sendDetails", { user : user, pass: pass})
-    console.log("called", user, pass)    
+    //console.log("called", user, pass)    
 }
 
 socket.on("")

@@ -230,7 +230,7 @@ class Item extends Hitbox {
                     if(overlapping({x: this.x+this.vx, y: this.y+this.vy, w: 32, h:32}, h) && this !== h) {
                         let a = false
                         for(let i of this.world.metadata.hitboxes) {
-                            if(i instanceof Inserter) if(i.heldItem == this) e(); a = true
+                            if(i instanceof Inserter) if(i.heldItem == h) a = true
                         }
                         if(!a) {
                             this.vx = 0
@@ -424,7 +424,7 @@ class Chest extends Hitbox {
         }
     }
 }
-
+/*
 for (let i = 3; i < 10; i++) {addBuild(new Belt(5*64, i*64, 0))}
 for (let i = 4; i < 8; i++) {addBuild(new Belt(7*64, i*64, 2))}
 for (let i = 2; i < 8; i++) {addBuild(new Belt(8*64, i*64, 0))}
@@ -442,11 +442,16 @@ addBuild(new Inserter(5*64+16, 10*64+16, 0))
 
 addBuild(new Chest(8*64, 0*64))
 addBuild(new Inserter(8*64+16, 1*64+16, 0))
-
-function addBuild(x) {
+*/
+function addBuild(x, y, b) {
     let overlap = false /*
     for(let h of Player.metadata.currentWorld.metadata.hitboxes) {
         if(overlapping(h, {x:x.x, y:x.y, w:x.y-1, h:x.h-1})) overlap = true
     } */
-    if(!overlap) Player.metadata.currentWorld.metadata.hitboxes.push(x)
+    if(!overlap) Player.metadata.currentWorld.grid.insertMob(x, y, b)
+    console.log(x, y)
 }
+function fetchMobiles() {
+    Player.metadata.currentWorld.grid
+}
+

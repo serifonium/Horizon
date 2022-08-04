@@ -100,6 +100,17 @@ function v(t, n) {
       e.click(),
       document.body.removeChild(e);
   }
+  function pxlart(e, t, i) {
+    for(let y in i) {
+        for(let x in i[y]) {
+          if(i[y][x] !== "") {
+            ctx.fillStyle = i[y][x]
+            ctx.fillRect(cx+e+x*4, cy+t+y*4, 4, 4)
+          }
+        }
+    }
+}
+  
    
    
  

@@ -46,9 +46,8 @@ class World {
                     )
             for (let i = 0; i < visableChunks.length; i++) {
                 const chunk = visableChunks[i];
-                console.log(chunk.pos)
+                //console.log(chunk.pos)
                 let chunkPos = v(chunk.pos.x*this.grid.options.rows*64, chunk.pos.y*this.grid.options.columns*64)
-
                 for (let chx = 0; chx < chunk.grid.length; chx++) {
                     const row = chunk.grid[chx];
                     for (let chy = 0; chy < row.length; chy++) {
@@ -57,10 +56,24 @@ class World {
                             ctx.fillStyle = "#111111"
                             ctx.fillRect(chx*64+cx, chy*64+cy, 64, 64)
                         } else {
-                            ctx.drawImage(Data.images[tile.type], chunkPos.x+(chx*64+cx), chunkPos.y+(chy*64+cy))
+                            ctx.drawImage(Data.images[tile.type], chunkPos.x+(chx*64+cx)*Zoom, chunkPos.y+(chy*64+cy)*Zoom, 64, 64)
                             
                         }
                     }
+                }
+                if(debugActive) {
+                    ctx.fillStyle = "#4444ff"
+                    ctx.fillRect(chunkPos.x+cx, chunkPos.y+cy, 4, 320)
+                    ctx.fillRect(chunkPos.x+cx, chunkPos.y+cy, 320, 4)
+                }
+                
+            } for (let i = 0; i < visableChunks.length; i++) {
+                const chunk = visableChunks[i];
+                let chunkPos = v(chunk.pos.x*this.grid.options.rows*64, chunk.pos.y*this.grid.options.columns*64)
+                for(let a of chunk.mobiles) {
+                    if(a.render != undefined) a.render(a)
+                    if(a.debugRender != undefined) a.debugRender(a)
+                    if(a.update != undefined) a.update(a)
                 }
             }
             
@@ -91,7 +104,7 @@ for(let a = 2; a < 3; a++) {
 
 Player.metadata.currentWorld = currentWorld
 
-
+currentWorld.grid.requestTile(0, 0).type = "water"
 
 
 
@@ -154,6 +167,13 @@ class Rock extends Hitbox {
         })
     }
 }
+
+console.info(currentWorld.grid.requestChunks(-5, 7, 10, 3))
+
+
+
+
+
 
 /* 
     25% chance of output {

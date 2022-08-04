@@ -53,6 +53,10 @@ Data.allReasearch = {
         sendChatMsg("Fortune 4 has finished reasearching.", 8000, "#00ff00")
         delete Data.reasearch["Fortune_4"] 
     }},
+    Mining_1: {cost: {basic: 100}, onCompletion: () => {
+        sendChatMsg("Mining 1 has finished reasearching.", 8000, "#00ff00")
+        delete Data.reasearch["Mining_1"] 
+    }}
 }
 Data.reasearch = {
     Military_1: {cost: {basic: 10}, onCompletion: () => {

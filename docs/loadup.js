@@ -16,7 +16,8 @@ Data.titles = ["Can You Feel My Heart",
 "(trigger warning: vikings)",
 "all publicity is good publicity",
 "THE RISE OF THE VIKINGS!!!!1!1!1!",
-"lmao no title today, #owned"]
+"lmao no title today, #owned",
+"hexagons coming soon..."]
 
 document.title = "Horizon: " + Data.titles[Math.floor(Math.random()*Data.titles.length)]
 
@@ -34,6 +35,9 @@ Data.recipes = {
     
 
 addImg("grass")
+addImg("water")
+addImg("shallowWater")
+addImg("wasteland")
 addImg("rail")
 addImg("metal")
 addImg("assembly")

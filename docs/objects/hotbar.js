@@ -25,10 +25,10 @@ function renderHotbar() {
     let tx = Math.floor((hX - cx*Zoom)/Zoom / 64)
     let ty = Math.floor((hY - cy*Zoom)/Zoom / 64)
     ctx.globalAlpha = 0.6
-    if(S === "belt") rotateimg(Data.images.belt, (tx+(cx/64))*64*Zoom, (ty+(cy/64))*64*Zoom, selectedRotation*90)
-    if(S === "inserter") rotateimg(Data.images.inserter, (tx+(cx/64))*64*Zoom, (ty+(cy/64))*64*Zoom, selectedRotation*90-90);
-    if(S === "chest") ctx.drawImage(Data.images.woodChest, (tx+(cx/64))*64*Zoom, (ty+(cy/64))*64*Zoom, Data.images.woodChest.width * Zoom, Data.images.woodChest.height * Zoom)
-    if(S === "assembly") ctx.drawImage(Data.images.assembly, (tx+(cx/64))*64*Zoom, (ty+(cy/64))*64*Zoom, Data.images.assembly.width * Zoom, Data.images.assembly.height * Zoom)
+    if(S === "belt") rotateimg(Data.images.belt, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, selectedRotation*90)
+    if(S === "inserter") rotateimg(Data.images.inserter, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, selectedRotation*90-90);
+    if(S === "chest") ctx.drawImage(Data.images.woodChest, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, Data.images.woodChest.width * Zoom, Data.images.woodChest.height * Zoom)
+    if(S === "assembly") ctx.drawImage(Data.images.assembly, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, Data.images.assembly.width * Zoom, Data.images.assembly.height * Zoom)
     ctx.globalAlpha = 1
 }
 var hX = 0
@@ -42,9 +42,12 @@ document.addEventListener("mousemove", (e) => {
 document.addEventListener("mousedown", (e) => {
     let tx = Math.floor((e.clientX - cx*Zoom)/Zoom / 64)
     let ty = Math.floor((e.clientY - cy*Zoom)/Zoom / 64)
-    let tileSelected = Player.metadata.currentWorld.grid[tx][ty]
-    if(hotbar[hotbarSelected] === 'belt') addBuild(new Belt(tx*64, ty*64, selectedRotation))
-    if(hotbar[hotbarSelected] === 'inserter') addBuild(new Inserter(tx*64+16, ty*64+16, selectedRotation))
-    if(hotbar[hotbarSelected] === 'chest') addBuild(new Chest(tx*64, ty*64))
-    if(hotbar[hotbarSelected] === 'assembly') addBuild(new Assembly(tx*64, ty*64))
+    let r = snap(e.clientX-cx, 64)
+    let t = snap(e.clientY-cy, 64)
+    console.log(v(r/64, t/64))
+    let tileSelected = Player.metadata.currentWorld.grid.requestTile(tx, ty)
+    if(hotbar[hotbarSelected] === 'belt') addBuild(Math.floor(tx), Math.floor(ty), new Belt(tx*64, ty*64, selectedRotation))
+    if(hotbar[hotbarSelected] === 'inserter') addBuild(Math.floor(tx), Math.floor(ty), new Inserter(tx*64+16, ty*64+16, selectedRotation))
+    if(hotbar[hotbarSelected] === 'chest') addBuild(Math.floor(tx), Math.floor(ty), new Chest(tx*64, ty*64))
+    if(hotbar[hotbarSelected] === 'assembly') addBuild(Math.floor(tx), Math.floor(ty), new Assembly(tx*64, ty*64))
 })

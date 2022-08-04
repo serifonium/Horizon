@@ -27,7 +27,9 @@ function tileArray2d(e, t, n, r, c) {
 
 function cTile(e, t, n = !0) {
     this.pos = v(e, t)
-    this.type = "grass"
+    t < -5 && (Math.floor(t)%25===0 || Math.floor(t+1)%25===0 || Math.floor(t+2)%25===0)? this.type = "shallowWater" : 
+    e > 9.9 || e < -10 || t > 9.9 ? this.type = "water" : (t > 6.9 ? this.type = "wasteland" : this.type = "grass")
+    //this.type = "grass"
 }
 function cChunk(e, t) {
 
@@ -83,7 +85,7 @@ class Chunks {
     requestChunks(e, t, n, r) {
         let a = new Array();
         for (let l = n; l > 0; l--)
-            for (let n = 0; n < r; n++) {console.log(n, t);a.push(this.requestChunk(l + e, n + t));}
+            for (let n = 0; n < r; n++) {/*console.log(n, t);*/a.push(this.requestChunk(l + e, n + t));}
         return a;
     }
     getMobiles(e) {

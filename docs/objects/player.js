@@ -9,35 +9,31 @@ var Player = {
     loadup: () => {
 
     },
-    speed: 3,
+    speed: 13,
     metadata: {},
     render: () => {
         ctx.fillStyle = "#222222"
         ctx.fillRect((Player.x+cx)*Zoom, (Player.y+cy)*Zoom, 64*Zoom, 64*Zoom)
     }, update: () => {
         function getTile(x, y) {
-            var tile = Player.metadata.currentWorld.grid.requestTile(Math.floor(x/64), Math.floor(y/64))
+            var tile = Player.metadata.currentWorld.grid.requestTile(Math.floor((x+32)/64), Math.floor((y+32)/64))
             
             return tile
         }
         Player.metadata.currentTile = getTile(Player.x, Player.y)
-        if(getTile(Player.x + Player.vx, Player.y).type !== "void") Player.x += Player.vx
-        if(getTile(Player.x, Player.y + Player.vy).type !== "void") Player.y += Player.vy
 
-        if ((Player.x)*Zoom < (window.innerWidth / 2)) {
-            cx = 0
-        } else if (Player.x > Player.metadata.currentWorld.width * 64 - window.innerWidth / 2/Zoom) {
-            cx = -(Player.metadata.currentWorld.width * 64 - window.innerWidth/Zoom)
-        } else {
-            cx = -(Player.x - window.innerWidth / 2 /Zoom)
+        if(getTile(Player.x + Player.vx, Player.y).type !== "water") {
+            if(Player.metadata.currentTile.type === "shallowWater") Player.x += Player.vx/2
+            else Player.x += Player.vx
         }
-        if (Player.y*Zoom < window.innerHeight / 2) {
-            cy = 0
-        } else if (Player.y > Player.metadata.currentWorld.height * 64 - window.innerHeight / 2/Zoom) {
-            cy = -(Player.metadata.currentWorld.height * 64 - window.innerHeight/Zoom)
-        } else {
-            cy = -(Player.y - window.innerHeight / 2/Zoom)
+        if(getTile(Player.x, Player.y + Player.vy).type !== "water") {
+            if(Player.metadata.currentTile.type === "shallowWater") Player.y += Player.vy/2
+            else Player.y += Player.vy
         }
+        
+        
+        cx = -((Player.x+32) - window.innerWidth / 2 /Zoom)
+        cy = -((Player.y+32) - window.innerHeight/ 2/Zoom)
     }
 }
 prevChatMessage = ""
