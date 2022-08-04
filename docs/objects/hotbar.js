@@ -44,9 +44,7 @@ document.addEventListener("mousedown", (e) => {
     let ty = Math.floor((e.clientY - cy*Zoom)/Zoom / 64)
     let r = snap(e.clientX-cx, 64)
     let t = snap(e.clientY-cy, 64)
-    console.log(
-        Player.metadata.currentWorld.grid.tileToChunk(tx, ty)
-    )
+    
     let tileSelected = Player.metadata.currentWorld.grid.requestTile(tx, ty)
     if(hotbar[hotbarSelected] === 'belt') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Belt(tx*64, ty*64, selectedRotation))
     if(hotbar[hotbarSelected] === 'inserter') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Inserter(tx*64+16, ty*64+16, selectedRotation))
