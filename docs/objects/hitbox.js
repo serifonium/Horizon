@@ -1,7 +1,7 @@
 class Hitbox {
     constructor(x, y, w, h, startup = () => {}, update = () => {}, rigid = false) {
-        this.x = x
-        this.y = y
+        this.id = newId()
+        this.pos = v(x, y)
         this.w = w
         this.h = h
         this.startup = startup  

@@ -6,7 +6,7 @@ function v(t, n) {
   }
   var uniqueId = 0;
   function newId() {
-    return (uniqueId += 1);
+    return self.crypto.randomUUID()
   }
   function randInt(t, n, e = Math.random()) {
     return Math.floor(e * (n + 1 - t)) + t;
