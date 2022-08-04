@@ -37,9 +37,9 @@ function getTileValue(x, y) {
 
 
     var config = {
-	greenLandWidth:40, // Width of the non-wasteland
+	greenLandWidth:80, // Width of the non-wasteland
 	
-	landSectionWidth:20, // Height of water/land sections
+	landSectionWidth:10, // Height of water/land sections
 	shallowWaterFrequency:0.33, // Frequency of shallow water
     }
 
@@ -68,7 +68,7 @@ function getTileValue(x, y) {
 
     // Shallow Water
     if (
-        Math.sin(y/(config.landSectionWidth/2))  +  (waterNoise*0.3)
+        Math.sin(y/(config.landSectionWidth/2))  +  (waterNoise*0.5)
          > config.shallowWaterFrequency
          ) {
         val = "water"
@@ -172,7 +172,7 @@ class Chunks {
         }
     }
     insertMob(e, t, n) {
-        
+        //console.log(e, t, this.requestChunk(e, t))
         let r = this.requestChunk(e, t);
         return this.removeMob(e, t, n.id), r.mobiles.push(n), n;
     }
