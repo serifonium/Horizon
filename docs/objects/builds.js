@@ -76,6 +76,7 @@ class LogisticsChest extends Hitbox {
             }
         })
         this.world = Player.metadata.currentWorld
+        this.config = {}
         for(let h of this.world.metadata.hitboxes) {
             if(h instanceof LogisticsStation) {
                 if(overlapping(this, h.radius)) {
@@ -138,6 +139,7 @@ class Assembly extends Hitbox {
         this.recipe = Data.recipes.ironCog
         this.timeRemaining = 500
         this.crafting = false
+        this.config = {}
         this.render = () => {
             ctx.drawImage(Data.images.assembly, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, Data.images.assembly.width*Zoom, Data.images.assembly.height*Zoom)
             ctx.fillStyle = "#ffffff"
@@ -248,6 +250,9 @@ class Item extends Hitbox {
         this.world = Player.metadata.currentWorld
         this.renderColor = "#484848"
         this.item = i
+        this.config = {
+            looseItem:true,
+        }
         this.render = () => {
             ctx.drawImage(img, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, img.width*Zoom, img.height*Zoom)
         }
@@ -262,7 +267,7 @@ class Belt extends Hitbox {
 
             for (let i = 0; i < chunkMobiles.length; i++) {
                 const mob = chunkMobiles[i];
-                if (mob instanceof Item) {
+                if (mob.config.looseItem) {
                     if (overlapping(mob, this) && mob.id != this.id) {
                         
                         var beltMovementStr = 0
@@ -296,6 +301,7 @@ class Belt extends Hitbox {
         })
         this.world = Player.metadata.currentWorld
         this.rotation = r
+        this.config = {}
         this.render = () => {
             let a = r*90
             rotateimg(Data.images.belt, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, a)
@@ -372,6 +378,7 @@ class Inserter extends Hitbox {
         this.heldItem = undefined
         this.world = Player.metadata.currentWorld
         this.rotation = r
+        this.config = {}
 
         var ioHitboxs = 30
 
@@ -437,6 +444,7 @@ class Chest extends Hitbox {
             {name: "Iron", amount: 10000}
         ]
         this.output = {name: "Iron", amount: 1}
+        this.config = {}
 
         this.addItem = (item) => {
             let itemsLeft = item.amount

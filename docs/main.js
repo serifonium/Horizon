@@ -94,3 +94,6 @@ setInterval(() => {
         )
     }*/
 },1000/60)
+
+Player.metadata.currentWorld.grid.insertMob(0, 0, Player)
+

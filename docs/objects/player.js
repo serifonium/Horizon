@@ -4,36 +4,43 @@
 var Player = {
     vx: 0,
     vy: 0,
-    x: 64,
-    y: 64,
+    pos:v(64,64),
+    w:64,
+    h:64,
+
+    chunkPos:v(),
+    id:newId(),
     loadup: () => {
 
     },
-    speed: 13,
+    speed: 20,
     metadata: {},
+    config:{
+        looseItem:true,
+    },
     render: () => {
         ctx.fillStyle = "#222222"
-        ctx.fillRect((Player.x+cx)*Zoom, (Player.y+cy)*Zoom, 64*Zoom, 64*Zoom)
+        ctx.fillRect((Player.pos.x+cx)*Zoom, (Player.pos.y+cy)*Zoom, 64*Zoom, 64*Zoom)
     }, update: () => {
         function getTile(x, y) {
             var tile = Player.metadata.currentWorld.grid.requestTile(Math.floor((x+32)/64), Math.floor((y+32)/64))
             
             return tile
         }
-        Player.metadata.currentTile = getTile(Player.x, Player.y)
+        Player.metadata.currentTile = getTile(Player.pos.x, Player.pos.y)
 
-        if(getTile(Player.x + Player.vx, Player.y).type !== "s") {
-            if(Player.metadata.currentTile.type === "shallowWater") Player.x += Player.vx/2
-            else Player.x += Player.vx
+        if(getTile(Player.pos.x + Player.vx, Player.pos.y).type !== "s") {
+            if(Player.metadata.currentTile.type === "shallowWater") Player.pos.x += Player.vx/2
+            else Player.pos.x += Player.vx
         }
-        if(getTile(Player.x, Player.y + Player.vy).type !== "s") {
-            if(Player.metadata.currentTile.type === "shallowWater") Player.y += Player.vy/2
-            else Player.y += Player.vy
+        if(getTile(Player.pos.x, Player.pos.y + Player.vy).type !== "s") {
+            if(Player.metadata.currentTile.type === "shallowWater") Player.pos.y += Player.vy/2
+            else Player.pos.y += Player.vy
         }
         
         
-        cx = -((Player.x+32) - window.innerWidth / 2 /Zoom)
-        cy = -((Player.y+32) - window.innerHeight/ 2/Zoom)
+        cx = -((Player.pos.x+32) - window.innerWidth / 2 /Zoom)
+        cy = -((Player.pos.y+32) - window.innerHeight/ 2/Zoom)
     }
 }
 prevChatMessage = ""
