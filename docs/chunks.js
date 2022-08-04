@@ -34,7 +34,7 @@ function tileArray2d(e, t, n, r, c) {
 
 function getTileValue(x, y) {
     var val = "grass"
-    if (Math.floor(x/6) % 5) {
+    if ((Math.floor(y/6) % 5) == 1) {
         val = "water"
     }
     return val
