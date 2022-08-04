@@ -88,7 +88,25 @@ class World {
                 if(h.render !== undefined) h.render(h)
                 h.debugRender(h)
             }
-            
+            var playerChunkPos = v(-Math.floor(cx/(this.grid.options.rows*64)), -Math.floor(cy/(this.grid.options.columns*64))),
+                loadingRange = ((3)*2)+1,
+                visableChunks = this.grid.requestChunks(
+                    (playerChunkPos.x-(Math.floor(loadingRange/2))),
+                    playerChunkPos.y-(Math.floor(loadingRange/2)),
+                    Math.floor(loadingRange),
+                    Math.floor(loadingRange)
+                    )
+            var mobiles = this.grid.getMobiles(visableChunks).mobs,
+                doneMobs = new Array()
+
+            for (let i = 0; i < mobiles.length; i++) {
+                const mob = mobiles[i];
+                if (!doneMobs.includes(mob.id)) {
+                    this.grid.revaulateMobile(mob)
+                    doneMobs.push(mob.id)
+                }
+            }
+                
         }
         if(this.startup !== undefined) {
             this.startup(this)

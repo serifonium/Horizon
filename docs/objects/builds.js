@@ -428,7 +428,7 @@ class Chest extends Hitbox {
 
         this.world = Player.metadata.currentWorld
         this.contents = [
-            {name: "Iron", amount: 1000000}
+            {name: "Iron", amount: 9}
         ]
         this.output = {name: "Iron", amount: 1}
 

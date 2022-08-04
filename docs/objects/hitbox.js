@@ -18,6 +18,8 @@ class Hitbox {
                 ctx.fillRect((this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom+(h-4)*Zoom, this.w*Zoom, 4*Zoom)
                 ctx.fillRect((this.pos.x+cx)*Zoom+(w-4)*Zoom, (this.pos.y+cy)*Zoom, 4*Zoom, this.h*Zoom)
                 ctx.fillRect((this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, 4*Zoom, this.h*Zoom)
+
+                ctx
             }
         }
         this.rigid = rigid
