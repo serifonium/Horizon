@@ -29,6 +29,32 @@ class Hitbox {
         }
         this.renderColor = "#44dd44"
         this.world = Player.metadata.currentWorld
+
+        this.tiles = [];
+        this.getCurrentTile = ()=>{
+            this.updateTiles()
+            return this.tiles
+        }
+        this.updateTiles = ()=>{
+            var tilePos = v(Math.floor(this.pos.x*64), Math.floor(this.pos.y/64)),
+                tile = this.world.grid.requestTile(tilePos.x, tilePos.y)
+
+            this.tiles.push(tile)
+            var xC = (64-(this.pos.x%64)) < this.w,
+                yC = (64-(this.pos.y%64)) < this.h
+
+            if (xC) {
+                this.tiles.push(this.world.grid.requestTile(tilePos.x+1, tilePos.y))
+            }
+            if (yC) {
+                this.tiles.push(this.world.grid.requestTile(tilePos.x, tilePos.y+1))
+            }
+            if (xC && yC) {
+                this.tiles.push(this.world.grid.requestTile(tilePos.x+1, tilePos.y+1))
+
+            }
+            
+        }
     }
 }
 

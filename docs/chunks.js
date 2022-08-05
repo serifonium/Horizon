@@ -89,6 +89,8 @@ function cTile(e, t, n = !0) {
     this.pos = v(e, t)
     this.type = getTileValue(e, t)
 
+    this.buildObject = undefined
+
 }
 function cChunk(e, t) {
 
