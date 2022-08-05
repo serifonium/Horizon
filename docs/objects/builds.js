@@ -258,7 +258,7 @@ class Item extends Hitbox {
         }
     }
 }
-
+/*
 class Belt extends Hitbox {
     constructor(x, y, r) {
         super(x, y, 64, 64, () => {}, () => {
@@ -306,11 +306,24 @@ class Belt extends Hitbox {
             let a = r*90
             rotateimg(Data.images.belt, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, a)
         }
-        /*
+        
             0
         3       1
             2
-        */
+        
+    }
+}*/
+
+class Belt {
+    constructor(t, r) {
+        this.tile = t
+        this.rotation = r
+        this.update = () => {
+            
+        }; this.render = () => {
+            console.log(this.tile.pos.x*320, this.tile.pos.y*320)
+            rotateimg(Data.images.belt, this.tile.pos.x*64+cx, this.tile.pos.y*64+cy, this.rotation*90)
+        }
     }
 }
 

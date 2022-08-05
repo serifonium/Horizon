@@ -57,7 +57,10 @@ class World {
                             ctx.fillRect(chx*64+cx, chy*64+cy, 64, 64)
                         } else {
                             ctx.drawImage(Data.images[tile.type], chunkPos.x+(chx*64+cx)*Zoom, chunkPos.y+(chy*64+cy)*Zoom, 64, 64)
-                            
+                        }
+                        if(tile.buildObject !== undefined) {
+                            if(tile.buildObject.update !== undefined) tile.buildObject.update()
+                            if(tile.buildObject.render !== undefined) tile.buildObject.render()
                         }
                     }
                 }

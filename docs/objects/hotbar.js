@@ -58,7 +58,13 @@ document.addEventListener("mousedown", (e) => {
     let t = snap(e.clientY-cy, 64)
     
     let tileSelected = Player.metadata.currentWorld.grid.requestTile(tx, ty)
-    if(hotbar[hotbarSelected] === 'belt') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Belt(tx*64, ty*64, selectedRotation))
+    if(hotbar[hotbarSelected] === 'belt') {
+        Player.metadata.currentWorld.grid.requestTile(Math.floor(tx), Math.floor(ty)).buildObject = new Belt(
+            Player.metadata.currentWorld.grid.requestTile(Math.floor(tx), Math.floor(ty)),
+            selectedRotation
+        )
+    }
+    //addBuild(Math.floor(tx/5), Math.floor(ty/5), new Belt(tx*64, ty*64, selectedRotation))
     if(hotbar[hotbarSelected] === 'inserter') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Inserter(tx*64+16, ty*64+16, selectedRotation))
     if(hotbar[hotbarSelected] === 'chest') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Chest(tx*64, ty*64))
     if(hotbar[hotbarSelected] === 'assembly') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Assembly(tx*64, ty*64))
