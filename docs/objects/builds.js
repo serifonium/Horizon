@@ -473,9 +473,21 @@ class Fabricator extends Hitbox {
         this.render = () => {ctx.drawImage(Data.images.fabricator, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, Data.images.fabricator.width*Zoom, Data.images.fabricator.height*Zoom)}
     }
 }
+class StorageTank extends Hitbox {
+    constructor(x, y) {
+        super(x, y, 3*64, 3*64)
+        this.render = () => {ctx.drawImage(Data.images.storageTank, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, Data.images.storageTank.width*Zoom, Data.images.storageTank.height*Zoom)}
+    }
+}
 class WaterCollector extends Hitbox {
     constructor(x, y) {
         super(x, y, 1*64, 2*64)
+        this.contents = {name: "water", amount: 100}
+        this.update = () => {
+            this.contents.amount = 100
+        }; this.render = () => {
+            ctx.drawImage(Data.images.waterCollector, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom)
+        }
     }
 }
 class PipeNetwork {
@@ -491,11 +503,21 @@ class Pipe extends Hitbox {
         this.render = () => {
             rotateimg(Data.images.pipe, this.pos.x+cx, this.pos.y+cy, this.rotation*90)
         }
-        this.update(this.checkNetwork)
+        //this.update()
         this.network = undefined
     }
     checkNetwork() {
-        let up = this.world.grid.requestTile(Math.floor(this.pos.x/64)-1, Math.floor(this.pos.y/64)) !== undefined? this.world.grid.requestTile(Math.floor(this.pos.x/64)-1, Math.floor(this.pos.y/64)): undefined
+        var compass = {
+            up: v(this.pos.x, this.pos.y-1),
+            down: v(this.pos.x, this.pos.y+1),
+            left: v(this.pos.x-1, this.pos.y),
+            right: v(this.pos.x+1, this.pos.y),
+        }
+        function checkOverlap(pos, p) {
+            return p.world.grid.requestChunk(Math.floor(pos.x/320), Math.floor(pos.y/320))
+        }
+        let up = checkOverlap(compass.up, this)
+        return (up)
     }
 }
 
