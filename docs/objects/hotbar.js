@@ -21,6 +21,7 @@ function renderHotbar() {
         if(hotbar[i] === "chest") ctx.drawImage(Data.images.woodChest, (window.innerWidth - 640) + i*64, window.innerHeight - 80)
         if(hotbar[i] === "assembly") ctx.drawImage(Data.images.assembly, (window.innerWidth - 640) + i*64, window.innerHeight - 80, 64, 64)
         if(hotbar[i] === "fabricator") ctx.drawImage(Data.images.fabricator, (window.innerWidth - 640) + i*64, window.innerHeight - 80, 64, 64)
+        if(hotbar[i] === "pipe") ctx.drawImage(Data.images.pipe, (window.innerWidth - 640) + i*64, window.innerHeight - 80, 64, 64)
         ctx.fillRect((window.innerWidth - 640) + i*64, window.innerHeight - 48, 4, 48)
         ctx.fillRect((window.innerWidth - 640) + (i+1)*64 - 4, window.innerHeight - 48, 4, 48)
         ctx.fillRect((window.innerWidth - 640) + i*64, window.innerHeight - 20, 64, 4)
@@ -33,6 +34,7 @@ function renderHotbar() {
     if(S === "chest") ctx.drawImage(Data.images.woodChest, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, Data.images.woodChest.width * Zoom, Data.images.woodChest.height * Zoom)
     if(S === "assembly") ctx.drawImage(Data.images.assembly, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, Data.images.assembly.width * Zoom, Data.images.assembly.height * Zoom)
     if(S === "fabricator") ctx.drawImage(Data.images.fabricator, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, Data.images.fabricator.width * Zoom, Data.images.fabricator.height * Zoom)
+    if(S === "pipe") rotateimg(Data.images.pipe, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, selectedRotation*90);
     ctx.globalAlpha = 1
 }
 var hX = 0
@@ -55,5 +57,5 @@ document.addEventListener("mousedown", (e) => {
     if(hotbar[hotbarSelected] === 'chest') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Chest(tx*64, ty*64))
     if(hotbar[hotbarSelected] === 'assembly') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Assembly(tx*64, ty*64))
     if(hotbar[hotbarSelected] === 'fabricator') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Fabricator(tx*64, ty*64))
-    if(hotbar[hotbarSelected] === 'pipe')addBuild(Math.floor(tx/5), Math.floor(ty/5), new Pipe(tx*64, ty*64))
+    if(hotbar[hotbarSelected] === 'pipe')addBuild(Math.floor(tx/5), Math.floor(ty/5), new Pipe(tx*64, ty*64, selectedRotation))
 })

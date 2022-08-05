@@ -484,13 +484,14 @@ class PipeNetwork {
     }
 }
 class Pipe extends Hitbox {
-    constructor(x, y) {
+    constructor(x, y, r) {
         super(x, y, 1*64, 1*64)
         this.world = Player.metadata.currentWorld
+        this.rotation = r
         this.render = () => {
-            ctx.fillStyle = "#333333"
-            ctx.fillRect(this.pos.x+cx, this.pos.y+cy, 64, 64)
+            rotateimg(Data.images.pipe, this.pos.x+cx, this.pos.y+cy, this.rotation*90)
         }
+        this.update(this.checkNetwork)
         this.network = undefined
     }
     checkNetwork() {

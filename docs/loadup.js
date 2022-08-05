@@ -95,6 +95,7 @@ addImg("belt")
 addImg("woodChest")
 addImg("inserter")
 addImg("fabricator")
+addImg("pipe")
 addImg("ironPlate", "items/")
 
 
