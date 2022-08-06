@@ -17,3 +17,9 @@ wasd : move
 '+' : Zoom in
 
 '-' : Zoom Out
+
+## How To Play
+
+### DISCLAMER: This does not apply to the current unfinished version of the game
+
+The goal of the game is to push further up to the north without being killed by the biters also pushing north.
