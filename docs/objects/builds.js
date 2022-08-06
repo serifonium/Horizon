@@ -104,7 +104,7 @@ class LogisticsChest extends Hitbox {
 }
 
 class Assembly extends Hitbox {
-    constructor(x, y) {
+    constructor(x, y, r) {
         super(x, y, 3*64, 3*64, () => {}, () => {
             this.tick = Date.now()
             if(!this.crafting) {
@@ -136,6 +136,7 @@ class Assembly extends Hitbox {
         })
         this.tileObject = true
 
+        this.rotation = r
 
         this.lastTick = Date.now()
         this.world = Player.metadata.currentWorld
@@ -145,10 +146,29 @@ class Assembly extends Hitbox {
         this.timeRemaining = 500
         this.crafting = false
         this.config = {}
+        
+
+        var iH = rotate(v(this.w/2, this.h/2), v(30+16, 10+16), this.rotation*90),
+            oH = rotate(v(this.w/2, this.h/2), v(80+16, 10+16), this.rotation*90)
+
+
+        this.inputHitbox = new Hitbox(this.pos.x+(iH.x-16), this.pos.y+(iH.y-16), 32, 32)
+        this.outputHitbox = new Hitbox(this.pos.x+(oH.x-16), this.pos.y+(oH.y-16), 32, 32)
+        
+
+
+
         this.render = () => {
-            ctx.drawImage(Data.images.assembly, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, Data.images.assembly.width*Zoom, Data.images.assembly.height*Zoom)
-            ctx.fillStyle = "#ffffff"
-            ctx.fillRect((this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, this.width*Zoom, this.height*Zoom)
+
+            var img = Data.images.assembly,
+                pos = v((this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom)
+                
+            rotateimg(img, pos.x, pos.y, this.rotation*90)
+
+            this.inputHitbox.debugRender()
+            this.outputHitbox.debugRender()
+            //ctx.fillStyle = "#ffffff"
+            //ctx.fillRect((this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, this.width*Zoom, this.height*Zoom)
         }
         /*document.addEventListener("mousedown", (e) => {
             if(overlapping({x:(this.pos.x+cx)*Zoom,y:(this.pos.y+cy)*Zoom,w:this.width*Zoom,h:this.height*Zoom}, {x: e.clientX, y: e.clientY, w: 1, h: 1})) {
@@ -299,7 +319,7 @@ class Belt extends Hitbox {
                 for (let i = 0; i < chunkMobiles.length; i++) {
                 const mob = chunkMobiles[i];
                 if (mob.config.looseItem) {
-                    if (overlapping(mob, this) && mob.id != this.id) {
+                    if (overlapping(mob, this) && mob.id != this.id && !mob.captured) {
                         
                         var beltMovementStr = 0
 
@@ -337,7 +357,7 @@ class Belt extends Hitbox {
 
 class Inserter extends Hitbox {
     constructor(x, y, r) {
-        var d = [v(32, 96), v(96, 32)][r%2]
+        var d = [v(32, 128), v(128, 32)][r%2]
         super(x, y, d.x, d.y, () => {}, () => {
             var chunks = Player.metadata.currentWorld.grid.requestChunks(this.chunkPos.x-2, this.chunkPos.y-1, 3, 3),
                 chunkMobiles = Player.metadata.currentWorld.grid.getMobiles(chunks).mobs
@@ -353,10 +373,24 @@ class Inserter extends Hitbox {
                             let e = new Item(this.recivingHitbox.pos.x, this.recivingHitbox.pos.y, iT.buildObject.output, Data.images.ironPlate)
                             addBuild(e.chunkPos.x, e.chunkPos.y, e)
                             this.heldItem = e
+                            this.heldItem.captured = true
                             iT.buildObject.output = undefined
                         }
                     }
                 }
+                if (this.heldItem == undefined) {
+                    for (let i = 0; i < chunkMobiles.length; i++) {
+                        const mob = chunkMobiles[i];
+                        if (overlapping(mob, this.recivingHitbox)) console.log("catch")
+                        if (mob.config.looseItem && overlapping(mob, this.recivingHitbox)) {
+                            this.heldItem = mob
+                            this.heldItem.captured = true
+                            break
+                        }
+                    }
+                }
+
+                
 
 /*
                 let a = true
@@ -394,6 +428,7 @@ class Inserter extends Hitbox {
             */
             } else {
                 if(!overlapping(this.heldItem, this)) {
+                    delete this.heldItem.captured
                     this.heldItem = undefined
                 } else {
 
@@ -411,6 +446,22 @@ class Inserter extends Hitbox {
                         
                             this.heldItem.pos.x += -3
                         
+                    }
+
+
+                    var outputTiles = this.outputHitbox.getCurrentTile()
+                    for (let i = 0; i < outputTiles.length; i++) {
+                        const oT = outputTiles[i];
+                        if (oT.buildObject instanceof Assembly) {
+                            if (overlapping(oT.buildObject.inputHitbox, this.outputHitbox)) {
+                                if (overlapping(this.heldItem, this.outputHitbox)) {
+                                    addItemToContainer(oT.buildObject, this.heldItem.item, 1)
+                                    Player.metadata.currentWorld.grid.removeMob(this.heldItem.chunkPos.x, this.heldItem.chunkPos.y, this.heldItem)
+                                    delete this.heldItem.captured
+                                    this.heldItem = undefined
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -452,7 +503,7 @@ class Inserter extends Hitbox {
             this.outputHitbox.renderColor = "#00cccc"
         }
 
-        d = [v(0, -32), v(-32, 0),v(0, -32), v(32, 0)][r]
+        d = [v(0, -32), v(-64, 0),v(0, -64), v(-32, 0)][r]
         this.pos.x += d.x
         this.pos.y += d.y
 

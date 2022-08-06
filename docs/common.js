@@ -80,7 +80,7 @@ function v(t, n) {
   }
    
   function rotate(t, n, e) {
-    var r = e,
+    var r = -e*(Math.PI/180),
       o = Math.cos(r),
       u = Math.sin(r);
     return {

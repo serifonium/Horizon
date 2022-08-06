@@ -116,8 +116,9 @@ function overlapping(obj1, obj2) {
 function DegToRad(d)  
 {  
     // Converts degrees to radians  
-    return d * 0.01745;  
+    return d * (Math.PI/180);  
 }  
+
   
 angle = 0
 function rotateimg(img, x, y, angle)  
@@ -154,7 +155,14 @@ function loop(x, fct, args = []) {
 
 
 
-
+function addItemToContainer(c, item, num) {
+    if (c.contents) {
+        if (c.contents[item] == undefined) c.contents[item] = 0
+        c.contents[item] += num
+    } else {
+        return false
+    }
+}
 
 
 

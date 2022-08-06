@@ -36,7 +36,7 @@ function renderHotbar() {
     if(S === "belt") rotateimg(Data.images.belt, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, selectedRotation*90)
     if(S === "inserter") rotateimg(Data.images.inserter, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, selectedRotation*90-90);
     if(S === "chest") ctx.drawImage(Data.images.woodChest, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, Data.images.woodChest.width * Zoom, Data.images.woodChest.height * Zoom)
-    if(S === "assembly") ctx.drawImage(Data.images.assembly, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, Data.images.assembly.width * Zoom, Data.images.assembly.height * Zoom)
+    if(S === "assembly") rotateimg(Data.images.assembly, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, selectedRotation*90)
     if(S === "fabricator") ctx.drawImage(Data.images.fabricator, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, Data.images.fabricator.width * Zoom, Data.images.fabricator.height * Zoom)
     if(S === "pipe") rotateimg(Data.images.pipe, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, selectedRotation*90);
     if(S === "waterCollector") ctx.drawImage(Data.images.waterCollector, snap(hX-cx, 64)+cx, snap(hY-cy, 64)+cy, Data.images.waterCollector.width * Zoom, Data.images.waterCollector.height * Zoom)
@@ -67,7 +67,7 @@ document.addEventListener("mousedown", (e) => {
     //addBuild(Math.floor(tx/5), Math.floor(ty/5), new Belt(tx*64, ty*64, selectedRotation))
     if(hotbar[hotbarSelected] === 'inserter') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Inserter(tx*64+16, ty*64+16, selectedRotation))
     if(hotbar[hotbarSelected] === 'chest') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Chest(tx*64, ty*64))
-    if(hotbar[hotbarSelected] === 'assembly') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Assembly(tx*64, ty*64))
+    if(hotbar[hotbarSelected] === 'assembly') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Assembly(tx*64, ty*64, selectedRotation))
     if(hotbar[hotbarSelected] === 'fabricator') addBuild(Math.floor(tx/5), Math.floor(ty/5), new Fabricator(tx*64, ty*64))
     if(hotbar[hotbarSelected] === 'pipe')addBuild(Math.floor(tx/5), Math.floor(ty/5), new Pipe(tx*64, ty*64, selectedRotation))
     if(hotbar[hotbarSelected] === 'waterCollector') addBuild(Math.floor(tx/5), Math.floor(ty/5), new WaterCollector(tx*64, ty*64))

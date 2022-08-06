@@ -13,7 +13,7 @@ var Player = {
     loadup: () => {
 
     },
-    speed: 20,
+    speed: 3,
     metadata: {},
     config:{
         looseItem:true,
