@@ -36,7 +36,8 @@ class Hitbox {
             return this.tiles
         }
         this.updateTiles = ()=>{
-            var tilePos = v(Math.floor(this.pos.x*64), Math.floor(this.pos.y/64)),
+            this.tiles = new Array()
+            var tilePos = v(Math.floor(this.pos.x/64), Math.floor(this.pos.y/64)),
                 tile = this.world.grid.requestTile(tilePos.x, tilePos.y)
 
             this.tiles.push(tile)

@@ -1,4 +1,6 @@
+class TileObject {
 
+}
 
 class LogisticsNetwork {
     constructor() {
@@ -132,6 +134,9 @@ class Assembly extends Hitbox {
             }
             this.lastTick = Date.now()
         })
+        this.tileObject = true
+
+
         this.lastTick = Date.now()
         this.world = Player.metadata.currentWorld
         this.contents = []
@@ -145,12 +150,12 @@ class Assembly extends Hitbox {
             ctx.fillStyle = "#ffffff"
             ctx.fillRect((this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, this.width*Zoom, this.height*Zoom)
         }
-        document.addEventListener("mousedown", (e) => {
+        /*document.addEventListener("mousedown", (e) => {
             if(overlapping({x:(this.pos.x+cx)*Zoom,y:(this.pos.y+cy)*Zoom,w:this.width*Zoom,h:this.height*Zoom}, {x: e.clientX, y: e.clientY, w: 1, h: 1})) {
                 
                 console.log(this)
             }
-        })
+        })*/
     }
 }
 
@@ -262,10 +267,36 @@ class Item extends Hitbox {
 class Belt extends Hitbox {
     constructor(x, y, r) {
         super(x, y, 64, 64, () => {}, () => {
+           
+        })
+        this.world = Player.metadata.currentWorld
+        this.rotation = r
+        this.config = {}
+        this.render = () => {
+            let a = r*90
+            rotateimg(Data.images.belt, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, a)
+        }
+        
+            0
+        3       1
+            2
+        
+    }
+}*/
+
+class Belt extends Hitbox {
+    constructor(t, r) {
+        super(t.pos.x*64, t.pos.y*64, 64, 64)
+
+        this.tileObject = true
+
+        this.tile = t
+        this.rotation = r
+        this.update = () => {
             var chunks = Player.metadata.currentWorld.grid.requestChunks(this.chunkPos.x-1, this.chunkPos.y, 1, 1),
                 chunkMobiles = Player.metadata.currentWorld.grid.getMobiles(chunks).mobs
 
-            for (let i = 0; i < chunkMobiles.length; i++) {
+                for (let i = 0; i < chunkMobiles.length; i++) {
                 const mob = chunkMobiles[i];
                 if (mob.config.looseItem) {
                     if (overlapping(mob, this) && mob.id != this.id) {
@@ -298,30 +329,7 @@ class Belt extends Hitbox {
                     }
                 }
             }
-        })
-        this.world = Player.metadata.currentWorld
-        this.rotation = r
-        this.config = {}
-        this.render = () => {
-            let a = r*90
-            rotateimg(Data.images.belt, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, a)
-        }
-        
-            0
-        3       1
-            2
-        
-    }
-}*/
-
-class Belt {
-    constructor(t, r) {
-        this.tile = t
-        this.rotation = r
-        this.update = () => {
-            
         }; this.render = () => {
-            console.log(this.tile.pos.x*320, this.tile.pos.y*320)
             rotateimg(Data.images.belt, this.tile.pos.x*64+cx, this.tile.pos.y*64+cy, this.rotation*90)
         }
     }
@@ -329,19 +337,34 @@ class Belt {
 
 class Inserter extends Hitbox {
     constructor(x, y, r) {
-        super(x, y, 32, 32, () => {}, () => {
+        var d = [v(32, 96), v(96, 32)][r%2]
+        super(x, y, d.x, d.y, () => {}, () => {
             var chunks = Player.metadata.currentWorld.grid.requestChunks(this.chunkPos.x-2, this.chunkPos.y-1, 3, 3),
                 chunkMobiles = Player.metadata.currentWorld.grid.getMobiles(chunks).mobs
 
             if(this.heldItem === undefined) {
 
-                
+                var inputTiles = this.recivingHitbox.getCurrentTile()
+                for (let i = 0; i < inputTiles.length; i++) {
+                    const iT = inputTiles[i];
 
+                    if (iT.buildObject instanceof Chest) {
+                        if(iT.buildObject.output !== undefined) {
+                            let e = new Item(this.recivingHitbox.pos.x, this.recivingHitbox.pos.y, iT.buildObject.output, Data.images.ironPlate)
+                            addBuild(e.chunkPos.x, e.chunkPos.y, e)
+                            this.heldItem = e
+                            iT.buildObject.output = undefined
+                        }
+                    }
+                }
 
+/*
                 let a = true
+                
                 for(let h of chunkMobiles) {
-                    
+
                     if(h instanceof Assembly && a === true) {
+
                         if(overlapping(this.recivingHitbox, h)) {
                             if(h.output !== undefined) {
                                 let e = new Item(this.recivingHitbox.x, this.recivingHitbox.y, h.output, Data.images.ironPlate)
@@ -365,6 +388,11 @@ class Inserter extends Hitbox {
                 }
             } else {
                 
+                
+
+            }
+            */
+            } else {
                 if(!overlapping(this.heldItem, this)) {
                     this.heldItem = undefined
                 } else {
@@ -385,7 +413,6 @@ class Inserter extends Hitbox {
                         
                     }
                 }
-
             }
         })
         this.heldItem = undefined
@@ -393,7 +420,7 @@ class Inserter extends Hitbox {
         this.rotation = r
         this.config = {}
 
-        var ioHitboxs = 30
+        var ioHitboxs = 64
 
         if(this.rotation === 0) {
             this.recivingHitbox = new Hitbox(this.pos.x, this.pos.y + ioHitboxs, 32, 32)
@@ -424,9 +451,28 @@ class Inserter extends Hitbox {
             Player.metadata.currentWorld.metadata.hitboxes.push(this.outputHitbox)
             this.outputHitbox.renderColor = "#00cccc"
         }
+
+        d = [v(0, -32), v(-32, 0),v(0, -32), v(32, 0)][r]
+        this.pos.x += d.x
+        this.pos.y += d.y
+
         this.render = () => {
-            let a = this.rotation * 90 -90
-            rotateimg(Data.images.inserter, (this.pos.x+cx-16)*Zoom, (this.pos.y+cy-16)*Zoom, a)
+            let a = (this.rotation * 90 -90)//+(((new Date().getTime()%1000)/1000)*360),
+                ctx = canvas.getContext('2d');  
+
+            //rotateimg(Data.images.inserter, (this.pos.x+cx-(this.w/2))*Zoom, (this.pos.y+cy)*Zoom, a)
+            var img = Data.images.inserter
+
+            ctx.save();  
+
+            var pos = v(this.pos.x+cx + (-img.width/2) + (this.w/2), this.pos.y+cy + (-img.height/2) + (this.h/2))
+            
+            ctx.translate(img.width * 0.5  + (pos.x), img.height * 0.5  + (pos.y));  
+            ctx.rotate(DegToRad(a));  
+            ctx.translate(-(img.width * 0.5  + (pos.x)), -(img.height * 0.5 + (pos.y)));  
+            
+            ctx.drawImage(img, pos.x, pos.y, img.width, img.height);  
+            ctx.restore();   
         }
     }
 }
@@ -451,6 +497,8 @@ class Chest extends Hitbox {
                 ctx.fillText(String(this.contents[0].amount), (this.pos.x+ this.w/2-27+cx)*Zoom, (this.pos.y+ this.h/2+cy)*Zoom)
             }
         })
+
+        this.tileObject = true
 
         this.world = Player.metadata.currentWorld
         this.contents = [
@@ -556,13 +604,42 @@ addBuild(new Chest(8*64, 0*64))
 addBuild(new Inserter(8*64+16, 1*64+16, 0))
 */
 function addBuild(x, y, b) {
-    let overlap = false /*
-    for(let h of Player.metadata.currentWorld.metadata.hitboxes) {
-        if(overlapping(h, {x:x.x, y:x.y, w:x.y-1, h:x.h-1})) overlap = true
-    } */
-    var cd = Player.metadata.currentWorld.grid
-    if(!overlap) cd.insertMob(Math.floor(x), Math.floor(y), b)
-    console.log(x, y)
+    if (b.tileObject) {
+        var tilePos = v(b.pos.x/64, b.pos.y/64),
+            dim = v(b.w/64, b.h/64),
+
+            emptySpace = true
+
+        for (let x = 0; x < dim.x && emptySpace; x++) {
+            for (let y = 0; y < dim.y && emptySpace; y++) {
+                var tile = Player.metadata.currentWorld.grid.requestTile(tilePos.x+x, tilePos.y+y)
+                if (tile.buildObject != undefined) {
+                    emptySpace = false
+                }
+            }            
+        }
+
+        if (emptySpace) {
+            for (let x = 0; x < dim.x && emptySpace; x++) {
+                for (let y = 0; y < dim.y && emptySpace; y++) {
+                    var tile = Player.metadata.currentWorld.grid.requestTile(tilePos.x+x, tilePos.y+y)
+                    tile.buildObject = b
+                    tile.buildSection = v(x, y)
+                }            
+            }
+        }
+
+        console.log(Player.metadata.currentWorld.grid.requestTile(tilePos.x, tilePos.y))
+
+        
+    } else {
+        let overlap = false /*
+        for(let h of Player.metadata.currentWorld.metadata.hitboxes) {
+            if(overlapping(h, {x:x.x, y:x.y, w:x.y-1, h:x.h-1})) overlap = true
+        } */
+        var cd = Player.metadata.currentWorld.grid
+        if(!overlap) cd.insertMob(Math.floor(x), Math.floor(y), b)
+    }
 }
 function fetchMobiles() {
     Player.metadata.currentWorld.grid
