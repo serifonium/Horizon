@@ -61,13 +61,13 @@ var Player = {
 
         Player.vx *= 0.93
         Player.vy *= 0.93
-        Player.vr *= 0.85
+        Player.vr *= 0.80
 
 
         var movementD = getAngle(v(0,0),v(Math.round(Player.vx),Math.round(-Player.vy))),
             movementS = getDistance(v(0,0),v(Math.round(Player.vx),Math.round(Player.vy)))
 
-            Player.vr += Math.sign(angleDiff(movementD,Player.rotation))*(movementS/10)*((1-(Math.abs(angleDiff(movementD,Player.rotation))/180))*3)*2
+            Player.vr += Math.sign(angleDiff(movementD,Player.rotation))*(movementS/10)*((1-(Math.abs(angleDiff(movementD,Player.rotation))/180))*3)*5
 
 
 
