@@ -432,21 +432,31 @@ class Inserter extends Hitbox {
                     this.heldItem = undefined
                 } else {
 
-                    if(this.rotation === 0) {
-                            this.heldItem.pos.y += -3
-                    } else if(this.rotation === 1) {
-                        
-                            this.heldItem.pos.x += 3
-                        
-                    }  else if(this.rotation === 2) {
-                        
-                            this.heldItem.pos.y += 3
-                        
-                    }  else if(this.rotation === 3) {
-                        
-                            this.heldItem.pos.x += -3
-                        
+                    var beltMovementStr = 0,
+                        mob = this.heldItem
+
+                    if (this.rotation%2==0) {
+                        var a = ((this.pos.x+(this.w/2))-(mob.pos.x+(mob.w/2)))/32
+                        mob.pos.x += a*4
+                        beltMovementStr += a
+
+                    } else {
+                        var a = ((this.pos.y+(this.h/2))-(mob.pos.y+(mob.h/2)))/32
+                        mob.pos.y += a*4
+                        beltMovementStr += a
+
                     }
+                    beltMovementStr = (1-((Math.abs(beltMovementStr)*0.6667)))*2.5
+
+                    var movement = [
+                        v(0, -1),
+                        v(1, 0),
+                        v(0, 1),
+                        v(-1, 0)
+                    ][this.rotation]
+                    
+                    mob.pos.x += movement.x * beltMovementStr
+                    mob.pos.y += movement.y * beltMovementStr
 
 
                     var outputTiles = this.outputHitbox.getCurrentTile()
