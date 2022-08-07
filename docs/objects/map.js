@@ -71,8 +71,17 @@ function mapRender() {
                                         
                                         ctx.fillRect(sx + (tile.pos.x*mts), sy + (tile.pos.y*mts), mts, mts)
                                         
+                                        if (tile.buildObject) {
+                                            ctx.fillStyle = "#000"
+                                            ctx.fillRect(sx + (tile.pos.x*mts), sy + (tile.pos.y*mts), (tile.buildObject.w/64)*mts, (tile.buildObject.h/64)*mts)
+                                        }
+                                        
+                                
                                     }
                                 }
+
+                                
+
                             }
 
 
@@ -94,7 +103,7 @@ function mapRender() {
             }
         }*/
 
-        ctx.fillStyle = "ffffff"
-        ctx.fillRect(sx+Player.x/32,sy+Player.y/32, 64/32, 64/32)
+        ctx.strokeStyle = "#000"
+        ctx.strokeRect(sx+(Player.pos.x/32),sy+(Player.pos.y/32), 64/16, 64/16)
     }
 }

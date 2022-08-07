@@ -66,8 +66,8 @@ var Player = {
 
         var movementD = getAngle(v(0,0),v(Math.round(Player.vx),Math.round(-Player.vy))),
             movementS = getDistance(v(0,0),v(Math.round(Player.vx),Math.round(Player.vy)))
-            console.log(Math.abs(angleDiff(movementD,Player.rotation))/180)
-        Player.vr += Math.sign(angleDiff(movementD,Player.rotation))*(movementS/10)*((1-(Math.abs(angleDiff(movementD,Player.rotation))/180))*3)*2
+
+            Player.vr += Math.sign(angleDiff(movementD,Player.rotation))*(movementS/10)*((1-(Math.abs(angleDiff(movementD,Player.rotation))/180))*3)*2
 
 
 
