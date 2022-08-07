@@ -28,6 +28,12 @@ function v(t, n) {
   function getAngle(t, n) {
     return (Math.atan2(t.x - n.x, t.y - n.y)) / (Math.PI/180)
   }
+  function cos(a) {
+    return Math.cos(a*(Math.PI/180))
+  }
+  function sin(a) {
+    return Math.sin(a*(Math.PI/180))
+  }
   function snap(t, n) {
     return Math.floor(t / n) * n;
   }

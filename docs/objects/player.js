@@ -41,19 +41,26 @@ var Player = {
     }, update: () => {
 
 
-
+        var movement = v(0,0)
         if (keys[keyCodes["w"]]) {
-            Player.vy += -Player.speed*0.05
+            movement.y += 1
         }
         if (keys[keyCodes["s"]]) {
-            Player.vy += Player.speed*0.05
+            movement.y -= 1
         }
         if (keys[keyCodes["a"]]) {
-            Player.vx += -Player.speed*0.05
+            movement.x += 1
         }
         if (keys[keyCodes["d"]]) {
-            Player.vx += Player.speed*0.05
+            movement.x -= 1
         }
+        var angle = -getAngle(v(0,0), movement)+90,
+            dst = Math.sign(getDistance(v(0,0), movement)),
+            s = Player.speed*0.05*dst
+            movement = v(cos(angle)*s,sin(angle)*s)
+
+        Player.vx += movement.x
+        Player.vy += movement.y
 
         Player.rotation += Player.vr
         Player.rotation = stopOverflow(Player.rotation)
