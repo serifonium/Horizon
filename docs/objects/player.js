@@ -8,6 +8,9 @@ var Player = {
     w:64,
     h:64,
 
+    rotation:32,
+    vr:10,
+
     chunkPos:v(),
     id:newId(),
     loadup: () => {
@@ -20,8 +23,54 @@ var Player = {
     },
     render: () => {
         ctx.fillStyle = "#222222"
-        ctx.fillRect((Player.pos.x+cx)*Zoom, (Player.pos.y+cy)*Zoom, 64*Zoom, 64*Zoom)
+
+        var pos = v((Player.pos.x+cx)*Zoom, (Player.pos.y+cy)*Zoom),
+            dim = v(64*Zoom, 64*Zoom)
+
+        ctx.save()
+        ctx.translate(pos.x+(dim.x/2), pos.y+(dim.y/2))
+        ctx.rotate(Player.rotation*(Math.PI/180))
+        ctx.translate(-(pos.x+(dim.x/2)), -(pos.y+(dim.y/2)))
+
+        ctx.fillRect(pos.x, pos.y, dim.x, dim.y)
+        ctx.fillStyle = "#ff0000"
+
+        ctx.fillRect(pos.x, pos.y, dim.x, 10)
+
+        ctx.restore()
     }, update: () => {
+
+
+
+        if (keys[keyCodes["w"]]) {
+            Player.vy += -Player.speed*0.05
+        }
+        if (keys[keyCodes["s"]]) {
+            Player.vy += Player.speed*0.05
+        }
+        if (keys[keyCodes["a"]]) {
+            Player.vx += -Player.speed*0.05
+        }
+        if (keys[keyCodes["d"]]) {
+            Player.vx += Player.speed*0.05
+        }
+
+        Player.rotation += Player.vr
+        Player.rotation = stopOverflow(Player.rotation)
+
+
+        Player.vx *= 0.93
+        Player.vy *= 0.93
+        Player.vr *= 0.85
+
+
+        var movementD = getAngle(v(0,0),v(Math.round(Player.vx),Math.round(-Player.vy))),
+            movementS = getDistance(v(0,0),v(Math.round(Player.vx),Math.round(Player.vy)))
+            console.log(Math.abs(angleDiff(movementD,Player.rotation))/180)
+        Player.vr += Math.sign(angleDiff(movementD,Player.rotation))*(movementS/10)*((1-(Math.abs(angleDiff(movementD,Player.rotation))/180))*3)*2
+
+
+
         function getTile(x, y) {
             var tile = Player.metadata.currentWorld.grid.requestTile(Math.floor((x+32)/64), Math.floor((y+32)/64))
             
@@ -41,6 +90,10 @@ var Player = {
         
         cx = -((Player.pos.x+32) - window.innerWidth / 2 /Zoom)
         cy = -((Player.pos.y+32) - window.innerHeight/ 2/Zoom)
+
+
+
+
     }
 }
 prevChatMessage = ""
@@ -49,6 +102,14 @@ chatOpen = false
 debugActive = true
 keyHistory = []
 currentKeys = []
+
+var keys = new Object(),
+    keyCodes = {
+        "w":87,
+        "s":83,
+        "a":65,
+        "d":68,
+    }
 document.addEventListener("keydown", (e) => {
     let a = true
     for(let k of currentKeys) {
@@ -56,20 +117,19 @@ document.addEventListener("keydown", (e) => {
             a = false
         }
     }
-    //console.log(e.key)
+    keys[e.keyCode] = true
+    console.log(e)
     if(!chatOpen) {
         if (a) {currentKeys.push(e.key)
             keyHistory.push(e.key)}
+            /*
         if(e.key === "w") {
-            Player.vy = -Player.speed
+            
         } if(e.key === "s") {
-            Player.vy = Player.speed
         }
         if(e.key === "a") {
-            Player.vx = -Player.speed
         } if(e.key === "d") {
-            Player.vx = Player.speed
-        }
+        }*/
         if(e.key === "1") hotbarSelected = 0
         if(e.key === "2") hotbarSelected = 1
         if(e.key === "3") hotbarSelected = 2
@@ -112,9 +172,10 @@ document.addEventListener("keyup", (e) => {
         }
     }
     if(e.key === "w" || e.key === "s") {
-        Player.vy = 0
+        //Player.vy = 0
     }
     if(e.key === "a" || e.key === "d") {
-        Player.vx = 0
+        //Player.vx = 0
     }
+    keys[e.keyCode] = false
 })

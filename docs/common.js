@@ -34,7 +34,7 @@ function v(t, n) {
   function clamp(t, n, e) {
     return t > e ? (t = e) : t < n && (t = n), t;
   }
-  function stopOverflow(t, n) {
+  function stopOverflow(t, n=360) {
     return ((t % n) + n) % n;
   }
   function xmur3(t) {
@@ -77,6 +77,11 @@ function v(t, n) {
     let r = 2 * Math.PI * Math.random(),
       o = randInt(n, e);
     return v(t.x + Math.cos(r) * o, t.y + Math.sin(r) * o);
+  }
+
+  function angleDiff(angle1, angle2) {
+    var diff = ( angle2 - angle1 + 180 ) % 360 - 180;
+    return diff < -180 ? diff + 360 : diff;
   }
    
   function rotate(t, n, e) {
