@@ -133,10 +133,12 @@ class Assembly extends Hitbox {
                 ctx.fillText(String(this.timeRemaining), (this.pos.x+ this.w/2+cx)*Zoom, (this.pos.y+ this.h/2+cy)*Zoom)
             }
             this.lastTick = Date.now()
+        
         })
         this.tileObject = true
 
         this.rotation = r
+
 
         this.lastTick = Date.now()
         this.world = Player.metadata.currentWorld
@@ -381,7 +383,6 @@ class Inserter extends Hitbox {
                 if (this.heldItem == undefined) {
                     for (let i = 0; i < chunkMobiles.length; i++) {
                         const mob = chunkMobiles[i];
-                        if (overlapping(mob, this.recivingHitbox)) console.log("catch")
                         if (mob.config.looseItem && overlapping(mob, this.recivingHitbox)) {
                             this.heldItem = mob
                             this.heldItem.captured = true
@@ -464,8 +465,8 @@ class Inserter extends Hitbox {
                         const oT = outputTiles[i];
                         if (oT.buildObject instanceof Assembly) {
                             if (overlapping(oT.buildObject.inputHitbox, this.outputHitbox)) {
-                                if (overlapping(this.heldItem, this.outputHitbox)) {
-                                    addItemToContainer(oT.buildObject, this.heldItem.item, 1)
+                                if (overlapping(this.heldItem, this.outputHitbox) && this.heldItem instanceof Item) {
+                                    addItemToContainer(oT.buildObject, this.heldItem.item)
                                     Player.metadata.currentWorld.grid.removeMob(this.heldItem.chunkPos.x, this.heldItem.chunkPos.y, this.heldItem)
                                     delete this.heldItem.captured
                                     this.heldItem = undefined

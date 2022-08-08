@@ -155,13 +155,26 @@ function loop(x, fct, args = []) {
 
 
 
-function addItemToContainer(c, item, num) {
-    if (c.contents) {
-        if (c.contents[item] == undefined) c.contents[item] = 0
-        c.contents[item] += num
-    } else {
-        return false
+function addItemToContainer(c, item) {
+    var name = item.name,
+        num = item.amount,
+        found = false
+    console.log(c.contents)
+    for (let i = 0; i < c.contents.length; i++) {
+        var content = c.contents[i];
+        if (content.name == name) {
+            c.contents[i].amount += num
+            found = true
+        }
     }
+    console.log(c.contents, num)
+    if (!found) {
+        console.log("clear")
+        c.contents.push({...item,})
+    }
+    c.contents[0].amount += 1
+
+    
 }
 
 
