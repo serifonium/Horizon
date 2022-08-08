@@ -108,21 +108,38 @@ class Assembly extends Hitbox {
         super(x, y, 3*64, 3*64, () => {}, () => {
             this.tick = Date.now()
             if(!this.crafting) {
-                for(let i of this.contents) {
+                var ingCheck = 0
+                for (let r of this.recipe.ing) {
+                    if(!!this.contents[r.name]) {
+                        if ((this.contents[r.name] > r.amount)){
+                            ingCheck += 1
+                        }
+                    }
+                }
+                if (ingCheck >= this.recipe.ing.length) {
+                    this.crafting = true
+                    this.timeRemaining = this.recipe.time
+
                     for (let r of this.recipe.ing) {
-                        if(i.name === r.name) {
-                            if(i.amount >= r.amount) {
-                                i.amount += -r.amount
-                                this.crafting = true
+                        if(!!this.contents[r.name]) {
+                            if (this.contents[r.name] > r.amount){
+                                this.contents[r.name] += -r.amount
                             }
                         }
                     }
                 }
+
+
+
+                
+            
             } else {
                 if(this.timeRemaining < 0) {
-                    this.output = this.recipe.prod
-                    this.crafting = false
-                    this.timeRemaining = this.recipe.time
+                    if (this.output == undefined) {
+                        this.output = this.recipe.prod
+                        this.crafting = false
+                        this.timeRemaining = this.recipe.time
+                    }
                 } else {
                     this.timeRemaining += -(this.tick - this.lastTick)
                 }
@@ -142,8 +159,8 @@ class Assembly extends Hitbox {
 
         this.lastTick = Date.now()
         this.world = Player.metadata.currentWorld
-        this.contents = []
-        this.output = {name: "Iron Gear", amount: 1}
+        this.contents = {}
+        this.output = "ironGear"
         this.recipe = Data.recipes.ironCog
         this.timeRemaining = 500
         this.crafting = false
@@ -280,8 +297,10 @@ class Item extends Hitbox {
         this.config = {
             looseItem:true,
         }
+        this.img = img
         this.render = () => {
-            ctx.drawImage(img, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, img.width*Zoom, img.height*Zoom)
+            
+            ctx.drawImage(this.img, (this.pos.x+cx)*Zoom, (this.pos.y+cy)*Zoom, img.width*Zoom, img.height*Zoom)
         }
     }
 }
@@ -372,13 +391,30 @@ class Inserter extends Hitbox {
 
                     if (iT.buildObject instanceof Chest) {
                         if(iT.buildObject.output !== undefined) {
-                            let e = new Item(this.recivingHitbox.pos.x, this.recivingHitbox.pos.y, iT.buildObject.output, Data.images.ironPlate)
+                            let e = new Item(this.recivingHitbox.pos.x, this.recivingHitbox.pos.y, iT.buildObject.output, Data.images[iT.buildObject.output.name])
                             addBuild(e.chunkPos.x, e.chunkPos.y, e)
                             this.heldItem = e
                             this.heldItem.captured = true
                             iT.buildObject.output = undefined
+
+                            console.log(e)
+                        }
+                    } 
+                    
+                    if (iT.buildObject instanceof Assembly) {
+                        if(iT.buildObject.output !== undefined) {
+                            if (overlapping(iT.buildObject.outputHitbox, this.recivingHitbox)) {
+                                console.log(iT.buildObject.output)
+                                let e = new Item(this.recivingHitbox.pos.x, this.recivingHitbox.pos.y, iT.buildObject.output, Data.images[iT.buildObject.output.name])
+                                console.log(e)
+                                addBuild(e.chunkPos.x, e.chunkPos.y, e)
+                                this.heldItem = e
+                                this.heldItem.captured = true
+                                iT.buildObject.output = undefined
+                            }
                         }
                     }
+                    
                 }
                 if (this.heldItem == undefined) {
                     for (let i = 0; i < chunkMobiles.length; i++) {
@@ -564,9 +600,9 @@ class Chest extends Hitbox {
 
         this.world = Player.metadata.currentWorld
         this.contents = [
-            {name: "Iron", amount: 10000}
+            {name: "ironPlate", amount: 10000}
         ]
-        this.output = {name: "Iron", amount: 1}
+        this.output = {name: "ironPlate", amount: 1}
         this.config = {}
 
         this.addItem = (item) => {

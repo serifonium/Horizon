@@ -27,9 +27,9 @@ function addImg(src, directory = "") {
 }
 Data.recipes = {
     ironCog: {
-        ing: [{name: "Iron", amount: 2}],
-        prod: [{name: "Iron Gear", amount: 1}],
-        time: 500
+        ing: [{name: "ironPlate", amount: 2}],
+        prod: [{name: "ironGear", amount: 1}],
+        time: 2000
     },
 }
 Data.fRecipes = {
@@ -99,6 +99,7 @@ addImg("waterCollector")
 addImg("storageTank")
 addImg("pipe")
 addImg("ironPlate", "items/")
+addImg("ironGear", "items/")
 
 
 Data.sfx = {
@@ -157,22 +158,16 @@ function loop(x, fct, args = []) {
 
 function addItemToContainer(c, item) {
     var name = item.name,
-        num = item.amount,
-        found = false
+        num = item.amount
+
+    if (!c.contents[name]) {
+        c.contents[name] = num
+    } else {
+        c.contents[name] += num
+
+    }
+
     console.log(c.contents)
-    for (let i = 0; i < c.contents.length; i++) {
-        var content = c.contents[i];
-        if (content.name == name) {
-            c.contents[i].amount += num
-            found = true
-        }
-    }
-    console.log(c.contents, num)
-    if (!found) {
-        console.log("clear")
-        c.contents.push({...item,})
-    }
-    c.contents[0].amount += 1
 
     
 }
